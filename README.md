@@ -14,4 +14,4 @@
 
 # Документация
 * [Техническое задание](https://github.com/Artrtrt/BiathlonStatistics/blob/main/docs/ТЗ.pdf)
-* [Курсовой проект](https://github.com/Artrtrt/BiathlonStatistics/blob/main/docs/Курсовой%20проект)
+* [Курсовой проект](https://github.com/Artrtrt/BiathlonStatistics/blob/main/docs/Курсовой%20проект.pdf)
