@@ -11,3 +11,7 @@
 # Сервисы
 * [Trello](https://clck.ru/33i9t7)
 * [Miro](https://miro.com/app/board/uXjVPiTXVPE=/)
+
+# Документация
+* [Техническое задание](https://github.com/Artrtrt/BiathlonStatistics/blob/main/docs/ТЗ.pdf)
+* [Курсовой проект](https://github.com/Artrtrt/BiathlonStatistics/blob/main/docs/Курсовой%20проект)
