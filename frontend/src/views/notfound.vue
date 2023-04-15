@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Not found</h1>
+    <i-container><h1 style="text-align: center;">Not found</h1><img class="ne_pevezlo" src="@/assets/ne_povezlo.jpg"/></i-container>
   </div>
 </template>
 

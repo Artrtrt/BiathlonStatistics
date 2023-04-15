@@ -15,7 +15,7 @@
     </i-layout-header>
     <i-layout-content
       class="_padding-top-1 _padding-left-0 _padding-right-lg-1 _padding-right-xl-1 _overflow-auto"
-      style="height: 100%"
+      style="height: calc(100vh - 72px); background-color: #c7c7c7;"
     >
       <router-view />
     </i-layout-content>
@@ -24,10 +24,19 @@
 
 <script lang="ts">
 import Vue from "vue";
+import * as model from "@/module/model";
+
 export default Vue.extend({
   name: "NetworkLan",
   data() {
-    return {};
+    return {
+      model,
+    };
+  },
+  async beforeMount() {
+    await model.method.app.import();
+    this.$forceUpdate();
+    // console.log(model.data.app.seasonList);
   },
 });
 </script>
