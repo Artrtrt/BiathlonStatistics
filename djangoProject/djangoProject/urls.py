@@ -1,5 +1,5 @@
 """
-URL configuration for backend project.
+URL configuration for djangoProject project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.2/topics/http/urls/
@@ -16,10 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from competitions_control.views import *
-import competitions_control.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path("seasons/", SeasonAPI.as_view())
 ]
