@@ -1,14 +1,14 @@
 <template>
-  <div class="block" style="height: 100%">
+  <div style="height: 100%">
     <i-container style="height: 100%; display: flex; align-items: center; justify-content: center;">
-      <i-card style="width:500px">
+      <i-card style="width:500px; box-shadow: 5px 5px 30px black;">
         <template slot="header">Калькулятор</template>
         <i-layout vertical>
           <i-layout-aside class="_margin-right-2">
             <i-row class="_margin-bottom-1">
               <i-column>
                 <i-select v-model="seasonInd" placeholder="Выберите сезон">
-                  <i-select-option v-for="(seasonUnit, index) in model.data.app.seasonList" :key="index" :value="index.toString()" :label="seasonUnit.title" />
+                  <i-select-option v-for="(seasonUnit, index) in model.data.app.seasonList" :key="index" :value="index.toString()" :label="`${seasonUnit.title} ${seasonUnit.year}`" />
                 </i-select>
               </i-column>
             </i-row>
@@ -26,8 +26,8 @@
             </i-row>
             <i-row class="_margin-bottom-1" v-if="competitionInd !==''">
               <i-column>
-                <i-select v-model="categoryInd" placeholder="Выберите категорию">
-                  <i-select-option v-for="(category, index) in model.data.app.seasonList[parseInt(seasonInd)].competitionList[parseInt(competitionInd)].categotiesList" :key="index" :value="index.toString()" :label="category.title" />
+                <i-select v-model="category" placeholder="Выберите категорию">
+                  <i-select-option v-for="(results, category) in model.data.app.seasonList[parseInt(seasonInd)].competitionList[parseInt(competitionInd)].categoryList" :key="category" :value="category" :label="category" />
                 </i-select>
               </i-column>
             </i-row>
@@ -36,7 +36,7 @@
                 <i-select :disabled="true" placeholder="Выберите категорию"></i-select>
               </i-column>
             </i-row>
-            <i-row class="_margin-bottom-1" v-if="categoryInd !==''">
+            <i-row class="_margin-bottom-1" v-if="category !==''">
               <i-column>
                 <i-select v-model="country" placeholder="Выберите страну">
                   <i-select-option v-for="(result, country) in countryList" :key="country" :value="country" :label="country" />
@@ -107,7 +107,7 @@ export default Vue.extend({
 
       seasonInd: '',
       competitionInd: '',
-      categoryInd: '',
+      category: '',
       countryList: {} as {[country: string]: ResultUnit[]},
       country: '',
       
@@ -118,12 +118,14 @@ export default Vue.extend({
   },
   methods: {
     getCounryList() {
-      const resultList = model.data.app.seasonList[parseInt(this.seasonInd)].competitionList[parseInt(this.competitionInd)].categotiesList[parseInt(this.categoryInd)].resultList;
+      console.log('aaa');
+      const resultList = model.data.app.seasonList[parseInt(this.seasonInd)].competitionList[parseInt(this.competitionInd)].categoryList[this.category];
       resultList.forEach((result) => {
-        if (this.countryList[`${ result.country}`]) {
-          this.countryList[`${ result.country}`].push(result);
+        console.log(result);
+        if (this.countryList[result.country]) {
+          this.countryList[result.country].push(result);
         } else {
-          this.countryList[`${ result.country}`] = [result];
+          this.countryList[result.country] = [result];
         }
       });
     },
@@ -135,7 +137,7 @@ export default Vue.extend({
     clearData() {
       this.seasonInd = '';
       this.competitionInd = '';
-      this.categoryInd = '';
+      this.category = '';
       this.countryList = {};
       this.country = '';
       this.clearResult();
@@ -156,24 +158,24 @@ export default Vue.extend({
   },
   computed: {
     disabledButton(): boolean {
-      return this.seasonInd ==='' || this.competitionInd ==='' || this.categoryInd ==='' || this.country === ''; 
+      return this.seasonInd ==='' || this.competitionInd ==='' || this.category ==='' || this.country === ''; 
     },
   },
   watch: {
     seasonInd() {
       this.competitionInd = '';
-      this.categoryInd = '';
+      this.category = '';
       this.clearResult();
       this.countryList = {};
       this.country = '';
     },
     competitionInd() {
-      this.categoryInd = '';
+      this.category = '';
       this.clearResult();
       this.countryList = {};
       this.country = '';
     },
-    categoryInd() {
+    category() {
       this.clearResult();
       this.country = '';
       this.getCounryList();
