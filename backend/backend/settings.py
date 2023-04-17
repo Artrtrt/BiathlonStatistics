@@ -17,7 +17,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    # 'corsheaders',
+    'corsheaders',
     'competitions_control',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,13 +37,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 ]
-
-# CORS_ALLOWED_ORIGINS = [
-#     'http://localhost:3030',
-# ]
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3030',
+]
 
 ROOT_URLCONF = 'backend.urls'
 
