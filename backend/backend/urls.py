@@ -21,5 +21,6 @@ import competitions_control.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path("seasons/", SeasonAPI.as_view())
+    path("seasons/", SeasonAPI.as_view()),
+    path("seasons/<pk>/", SeasonAPIUpdate.as_view())
 ]
