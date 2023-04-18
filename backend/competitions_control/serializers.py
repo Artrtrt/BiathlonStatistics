@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from russian_names import RussianNames
 
 from competitions_control.models import *
 

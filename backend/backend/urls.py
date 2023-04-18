@@ -25,5 +25,6 @@ urlpatterns = [
     path("results/", ResultAPI.as_view()),
     path("competitions/", CompetitionAPI.as_view()),
 
+
     # path("seasons/<pk>/", SeasonAPIUpdate.as_view())
 ]

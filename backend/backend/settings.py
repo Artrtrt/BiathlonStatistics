@@ -1,7 +1,12 @@
+import os
 from pathlib import Path
+import json
+
+from django.core.signing import JSONSerializer
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -41,7 +46,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 ]
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3030',
+    'http://localhost:8080',
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -73,7 +78,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'biathlon',
         'USER': 'postgres',
-        'PASSWORD': '2108',
+        'PASSWORD':  "2108",
         'HOST': 'localhost',
         'PORT': '5432'
     }
