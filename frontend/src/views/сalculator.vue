@@ -1,93 +1,155 @@
 <template>
   <div style="height: 100%">
-    <i-container style="height: 100%; display: flex; align-items: center; justify-content: center;">
-      <i-card style="width:500px; box-shadow: 5px 5px 30px black;">
-        <template slot="header">Калькулятор</template>
+    <i-container
+      style="
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      "
+    >
+      <i-card
+        style="width: 500px; box-shadow: 5px 5px 30px black"
+        id="calc-content"
+      >
+        <template slot="header"
+          ><div style="width: 100%; text-align: center">
+            <a class="text-header">Калькулятор</a>
+          </div></template
+        >
         <i-layout vertical>
           <i-layout-aside class="_margin-right-2">
             <i-row class="_margin-bottom-1">
               <i-column>
                 <i-select v-model="seasonInd" placeholder="Выберите сезон">
-                  <i-select-option v-for="(seasonUnit, index) in model.data.app.seasonList" :key="index" :value="index.toString()" :label="`${seasonUnit.title} ${seasonUnit.year}`" />
+                  <i-select-option
+                    v-for="(seasonUnit, index) in model.data.app.seasonList"
+                    :key="index"
+                    :value="index.toString()"
+                    :label="`${seasonUnit.title} ${seasonUnit.year}`"
+                  />
                 </i-select>
               </i-column>
             </i-row>
-            <i-row class="_margin-bottom-1" v-if="seasonInd !==''">
+            <i-row class="_margin-bottom-1" v-if="seasonInd !== ''">
               <i-column>
-                <i-select v-model="competitionInd" placeholder="Выберите чемпионат">
-                  <i-select-option v-for="(competitionUnit, index) in model.data.app.seasonList[parseInt(seasonInd)].competitionList" :key="index" :value="index.toString()" :label="competitionUnit.title" />
+                <i-select
+                  v-model="competitionInd"
+                  placeholder="Выберите чемпионат"
+                >
+                  <i-select-option
+                    v-for="(competitionUnit, index) in model.data.app
+                      .seasonList[parseInt(seasonInd)].competitionList"
+                    :key="index"
+                    :value="index.toString()"
+                    :label="competitionUnit.title"
+                  />
                 </i-select>
               </i-column>
             </i-row>
             <i-row class="_margin-bottom-1" v-else>
               <i-column>
-                <i-select :disabled="true" placeholder="Выберите чемпионат"></i-select>
+                <i-select
+                  :disabled="true"
+                  placeholder="Выберите чемпионат"
+                ></i-select>
               </i-column>
             </i-row>
-            <i-row class="_margin-bottom-1" v-if="competitionInd !==''">
+            <i-row class="_margin-bottom-1" v-if="competitionInd !== ''">
               <i-column>
                 <i-select v-model="category" placeholder="Выберите категорию">
-                  <i-select-option v-for="(results, category) in model.data.app.seasonList[parseInt(seasonInd)].competitionList[parseInt(competitionInd)].categoryList" :key="category" :value="category" :label="category" />
+                  <i-select-option
+                    v-for="(results, category) in model.data.app.seasonList[
+                      parseInt(seasonInd)
+                    ].competitionList[parseInt(competitionInd)].categoryList"
+                    :key="category"
+                    :value="category"
+                    :label="category"
+                  />
                 </i-select>
               </i-column>
             </i-row>
             <i-row class="_margin-bottom-1" v-else>
               <i-column>
-                <i-select :disabled="true" placeholder="Выберите категорию"></i-select>
+                <i-select
+                  :disabled="true"
+                  placeholder="Выберите категорию"
+                ></i-select>
               </i-column>
             </i-row>
-            <i-row class="_margin-bottom-1" v-if="category !==''">
+            <i-row class="_margin-bottom-1" v-if="category !== ''">
               <i-column>
                 <i-select v-model="country" placeholder="Выберите страну">
-                  <i-select-option v-for="(result, country) in countryList" :key="country" :value="country" :label="country" />
+                  <i-select-option
+                    v-for="(result, country) in countryList"
+                    :key="country"
+                    :value="country"
+                    :label="country"
+                  />
                 </i-select>
               </i-column>
             </i-row>
             <i-row class="_margin-bottom-1" v-else>
               <i-column>
-                <i-select :disabled="true" placeholder="Выберите страну"></i-select>
+                <i-select
+                  :disabled="true"
+                  placeholder="Выберите страну"
+                ></i-select>
               </i-column>
             </i-row>
             <i-row>
               <i-column>
-                <i-button :disabled="disabledButton" variant="primary" class="_margin-right-1" @click="calc">Посчитать</i-button>
+                <i-button
+                  :disabled="disabledButton"
+                  variant="primary"
+                  class="_margin-right-1 button-confirm"
+                  @click="calc"
+                  >Посчитать</i-button
+                >
                 <i-button variant="danger" @click="clearData">Стереть</i-button>
               </i-column>
             </i-row>
           </i-layout-aside>
           <i-layout>
-            <i-layout-header>
-            Результат
-        </i-layout-header>
-        <i-layout-content>
-          <i-container style="border: 1px solid;">
-            <i-row class="_margin-bottom-1 _margin-top-1">
-              <i-column xs="7">
-                Золото:
-              </i-column>
-              <i-column xs="3">
-                {{ goldMedals }}
-              </i-column>
-            </i-row>
-            <i-row class="_margin-bottom-1">
-              <i-column xs="7">
-                Серебро:
-              </i-column>
-              <i-column xs="3">
-                {{ silverMedals }}
-              </i-column>
-            </i-row>
-            <i-row class="_margin-bottom-1">
-              <i-column xs="7">
-                Бронза:
-              </i-column>
-              <i-column xs="3">
-                {{ bronzeMedals }}
-              </i-column>
-            </i-row>
-          </i-container>
-        </i-layout-content>
-      </i-layout>
+            <i-layout-header class="text-header"> Результат </i-layout-header>
+            <i-layout-content style="font-size: 16px">
+              <i-container style="border: 1px solid">
+                <i-row
+                  style="background-color: #f6fab4"
+                  class="_padding-bottom-1 _padding-top-1"
+                >
+                  <i-column xs="7">
+                    <a>Золото:</a>
+                  </i-column>
+                  <i-column xs="3">
+                    <a>{{ goldMedals }}</a>
+                  </i-column>
+                </i-row>
+                <i-row
+                  style="background-color: #e6e6e6"
+                  class="_padding-bottom-1 _padding-top-1"
+                >
+                  <i-column xs="7">
+                    <a>Серебро:</a>
+                  </i-column>
+                  <i-column xs="3">
+                    <a>{{ silverMedals }}</a>
+                  </i-column>
+                </i-row>
+                <i-row
+                  style="background-color: #e6c5a3"
+                  class="_padding-bottom-1 _padding-top-1"
+                >
+                  <i-column xs="7">
+                    <a>Бронза:</a>
+                  </i-column>
+                  <i-column xs="3">
+                    <a>{{ bronzeMedals }}</a>
+                  </i-column>
+                </i-row>
+              </i-container>
+            </i-layout-content>
+          </i-layout>
         </i-layout>
       </i-card>
     </i-container>
@@ -96,7 +158,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import * as model from '@/module/model';
+import * as model from "@/module/model";
 import { ResultUnit } from "@/module/model/app";
 
 export default Vue.extend({
@@ -105,21 +167,23 @@ export default Vue.extend({
     return {
       model,
 
-      seasonInd: '',
-      competitionInd: '',
-      category: '',
-      countryList: {} as {[country: string]: ResultUnit[]},
-      country: '',
-      
-      goldMedals: '00',
-      silverMedals: '00',
-      bronzeMedals: '00',
+      seasonInd: "",
+      competitionInd: "",
+      category: "",
+      countryList: {} as { [country: string]: ResultUnit[] },
+      country: "",
+
+      goldMedals: "00",
+      silverMedals: "00",
+      bronzeMedals: "00",
     };
   },
   methods: {
     getCounryList() {
-      console.log('aaa');
-      const resultList = model.data.app.seasonList[parseInt(this.seasonInd)].competitionList[parseInt(this.competitionInd)].categoryList[this.category];
+      const resultList =
+        model.data.app.seasonList[parseInt(this.seasonInd)].competitionList[
+          parseInt(this.competitionInd)
+        ].categoryList[this.category];
       resultList.forEach((result) => {
         console.log(result);
         if (this.countryList[result.country]) {
@@ -130,16 +194,16 @@ export default Vue.extend({
       });
     },
     clearResult() {
-      this.goldMedals = '00';
-      this.silverMedals = '00';
-      this.bronzeMedals = '00';
+      this.goldMedals = "00";
+      this.silverMedals = "00";
+      this.bronzeMedals = "00";
     },
     clearData() {
-      this.seasonInd = '';
-      this.competitionInd = '';
-      this.category = '';
+      this.seasonInd = "";
+      this.competitionInd = "";
+      this.category = "";
       this.countryList = {};
-      this.country = '';
+      this.country = "";
       this.clearResult();
     },
     calc() {
@@ -150,7 +214,7 @@ export default Vue.extend({
         goldMedals += result.goldMedals;
         silverMedals += result.silverMedals;
         bronzeMedals += result.bronzeMedals;
-      })
+      });
       this.goldMedals = goldMedals.toString();
       this.silverMedals = silverMedals.toString();
       this.bronzeMedals = bronzeMedals.toString();
@@ -158,26 +222,31 @@ export default Vue.extend({
   },
   computed: {
     disabledButton(): boolean {
-      return this.seasonInd ==='' || this.competitionInd ==='' || this.category ==='' || this.country === ''; 
+      return (
+        this.seasonInd === "" ||
+        this.competitionInd === "" ||
+        this.category === "" ||
+        this.country === ""
+      );
     },
   },
   watch: {
     seasonInd() {
-      this.competitionInd = '';
-      this.category = '';
+      this.competitionInd = "";
+      this.category = "";
       this.clearResult();
       this.countryList = {};
-      this.country = '';
+      this.country = "";
     },
     competitionInd() {
-      this.category = '';
+      this.category = "";
       this.clearResult();
       this.countryList = {};
-      this.country = '';
+      this.country = "";
     },
     category() {
       this.clearResult();
-      this.country = '';
+      this.country = "";
       this.getCounryList();
     },
     country() {
@@ -186,3 +255,20 @@ export default Vue.extend({
   },
 });
 </script>
+
+<style scoped>
+#calc-content {
+  background-color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.my-select {
+  background-color: #3d72b0 !important;
+  border-color: #3d72b0 !important;
+}
+
+.text-header {
+  color: #233567 !important;
+  font-size: 20px;
+  text-align: center;
+}
+</style>

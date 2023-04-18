@@ -3,6 +3,7 @@ import VueRouter, { RouteConfig } from "vue-router";
 
 import Home from "@/views/home.vue";
 import Сalculator from "@/views/сalculator.vue";
+import Competition from "@/views/competition.vue";
 import Notfound from "@/views/notfound.vue";
 
 Vue.use(VueRouter);
@@ -22,6 +23,14 @@ const routes: Array<RouteConfig> = [
     component: Сalculator,
     meta: {
       title: "Калькулятор медалей",
+    },
+  },
+  {
+    path: "/competiton/:index?",
+    name: "competition",
+    component: Competition,
+    meta: {
+      title: "Соревнование",
     },
   },
   {
