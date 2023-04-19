@@ -1,158 +1,104 @@
 <template>
-  <div style="height: 100%">
-    <i-container
-      style="
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      "
-    >
-      <i-card
-        style="width: 500px; box-shadow: 5px 5px 30px black"
-        id="calc-content"
-      >
-        <template slot="header"
-          ><div style="width: 100%; text-align: center">
-            <a class="text-header">Калькулятор</a>
-          </div></template
-        >
-        <i-layout vertical>
-          <i-layout-aside class="_margin-right-2">
-            <i-row class="_margin-bottom-1">
-              <i-column>
-                <i-select v-model="seasonInd" placeholder="Выберите сезон">
-                  <i-select-option
-                    v-for="(seasonUnit, index) in model.data.app.seasonList"
-                    :key="index"
-                    :value="index.toString()"
-                    :label="`${seasonUnit.title} ${seasonUnit.year}`"
-                  />
-                </i-select>
-              </i-column>
-            </i-row>
-            <i-row class="_margin-bottom-1" v-if="seasonInd !== ''">
-              <i-column>
-                <i-select
-                  v-model="competitionInd"
-                  placeholder="Выберите чемпионат"
-                >
-                  <i-select-option
-                    v-for="(competitionUnit, index) in model.data.app
-                      .seasonList[parseInt(seasonInd)].competitionList"
-                    :key="index"
-                    :value="index.toString()"
-                    :label="competitionUnit.title"
-                  />
-                </i-select>
-              </i-column>
-            </i-row>
-            <i-row class="_margin-bottom-1" v-else>
-              <i-column>
-                <i-select
-                  :disabled="true"
-                  placeholder="Выберите чемпионат"
-                ></i-select>
-              </i-column>
-            </i-row>
-            <i-row class="_margin-bottom-1" v-if="competitionInd !== ''">
-              <i-column>
-                <i-select v-model="category" placeholder="Выберите категорию">
-                  <i-select-option
-                    v-for="(results, category) in model.data.app.seasonList[
-                      parseInt(seasonInd)
-                    ].competitionList[parseInt(competitionInd)].categoryList"
-                    :key="category"
-                    :value="category"
-                    :label="category"
-                  />
-                </i-select>
-              </i-column>
-            </i-row>
-            <i-row class="_margin-bottom-1" v-else>
-              <i-column>
-                <i-select
-                  :disabled="true"
-                  placeholder="Выберите категорию"
-                ></i-select>
-              </i-column>
-            </i-row>
-            <i-row class="_margin-bottom-1" v-if="category !== ''">
-              <i-column>
-                <i-select v-model="country" placeholder="Выберите страну">
-                  <i-select-option
-                    v-for="(result, country) in countryList"
-                    :key="country"
-                    :value="country"
-                    :label="country"
-                  />
-                </i-select>
-              </i-column>
-            </i-row>
-            <i-row class="_margin-bottom-1" v-else>
-              <i-column>
-                <i-select
-                  :disabled="true"
-                  placeholder="Выберите страну"
-                ></i-select>
-              </i-column>
-            </i-row>
-            <i-row>
-              <i-column>
-                <i-button
-                  :disabled="disabledButton"
-                  variant="primary"
-                  class="_margin-right-1 button-confirm"
-                  @click="calc"
-                  >Посчитать</i-button
-                >
-                <i-button variant="danger" @click="clearData">Стереть</i-button>
-              </i-column>
-            </i-row>
-          </i-layout-aside>
-          <i-layout>
-            <i-layout-header class="text-header"> Результат </i-layout-header>
-            <i-layout-content style="font-size: 16px">
-              <i-container style="border: 1px solid">
-                <i-row
-                  style="background-color: #f6fab4"
-                  class="_padding-bottom-1 _padding-top-1"
-                >
-                  <i-column xs="7">
-                    <a>Золото:</a>
-                  </i-column>
-                  <i-column xs="3">
-                    <a>{{ goldMedals }}</a>
-                  </i-column>
-                </i-row>
-                <i-row
-                  style="background-color: #e6e6e6"
-                  class="_padding-bottom-1 _padding-top-1"
-                >
-                  <i-column xs="7">
-                    <a>Серебро:</a>
-                  </i-column>
-                  <i-column xs="3">
-                    <a>{{ silverMedals }}</a>
-                  </i-column>
-                </i-row>
-                <i-row
-                  style="background-color: #e6c5a3"
-                  class="_padding-bottom-1 _padding-top-1"
-                >
-                  <i-column xs="7">
-                    <a>Бронза:</a>
-                  </i-column>
-                  <i-column xs="3">
-                    <a>{{ bronzeMedals }}</a>
-                  </i-column>
-                </i-row>
-              </i-container>
-            </i-layout-content>
-          </i-layout>
+  <div class="content-center">
+    <i-card id="opacity-block">
+      <template slot="header">
+        <div class="text-header">
+          <a style="color: #233567 !important; font-size: 20px;">Калькулятор</a>
+        </div>
+      </template>
+      <i-layout vertical>
+        <i-layout-aside class="_margin-right-2">
+          <i-row class="_margin-bottom-1">
+            <i-column>
+              <i-select v-model="seasonInd" placeholder="Выберите сезон">
+                <i-select-option v-for="(seasonUnit, index) in model.data.app.seasonList" :key="index"
+                  :value="index.toString()" :label="`${seasonUnit.title} ${seasonUnit.year}`" />
+              </i-select>
+            </i-column>
+          </i-row>
+          <i-row class="_margin-bottom-1" v-if="seasonInd !== ''">
+            <i-column>
+              <i-select v-model="competitionInd" placeholder="Выберите чемпионат">
+                <i-select-option v-for="(competitionUnit, index) in model.data.app
+                  .seasonList[parseInt(seasonInd)].competitionList" :key="index" :value="index.toString()"
+                  :label="competitionUnit.title" />
+              </i-select>
+            </i-column>
+          </i-row>
+          <i-row class="_margin-bottom-1" v-else>
+            <i-column>
+              <i-select :disabled="true" placeholder="Выберите чемпионат"></i-select>
+            </i-column>
+          </i-row>
+          <i-row class="_margin-bottom-1" v-if="competitionInd !== ''">
+            <i-column>
+              <i-select v-model="category" placeholder="Выберите категорию">
+                <i-select-option v-for="(results, category) in model.data.app.seasonList[
+                  parseInt(seasonInd)
+                ].competitionList[parseInt(competitionInd)].categoryList" :key="category" :value="category"
+                  :label="category" />
+              </i-select>
+            </i-column>
+          </i-row>
+          <i-row class="_margin-bottom-1" v-else>
+            <i-column>
+              <i-select :disabled="true" placeholder="Выберите категорию"></i-select>
+            </i-column>
+          </i-row>
+          <i-row class="_margin-bottom-1" v-if="category !== ''">
+            <i-column>
+              <i-select v-model="country" placeholder="Выберите страну">
+                <i-select-option v-for="(result, country) in countryList" :key="country" :value="country"
+                  :label="country" />
+              </i-select>
+            </i-column>
+          </i-row>
+          <i-row class="_margin-bottom-1" v-else>
+            <i-column>
+              <i-select :disabled="true" placeholder="Выберите страну"></i-select>
+            </i-column>
+          </i-row>
+          <i-row>
+            <i-column>
+              <i-button style="width: 130px;" :disabled="disabledButton" variant="primary"
+                class="_margin-right-1 button-confirm" @click="calc">Посчитать</i-button>
+              <i-button  class="button-dunger" @click="clearData" style="width: 130px;">Стереть</i-button>
+            </i-column>
+          </i-row>
+        </i-layout-aside>
+        <i-layout style="min-width: 200px;">
+          <i-layout-header class="text-header"><a>Результат</a></i-layout-header>
+          <i-layout-content style="font-size: 16px">
+            <i-container style="border: 1px solid">
+              <i-row style="background-color: #f6fab4" class="_padding-bottom-1 _padding-top-1">
+                <i-column xs="7">
+                  <a>Золото:</a>
+                </i-column>
+                <i-column xs="3">
+                  <a>{{ goldMedals }}</a>
+                </i-column>
+              </i-row>
+              <i-row style="background-color: #e6e6e6" class="_padding-bottom-1 _padding-top-1">
+                <i-column xs="7">
+                  <a>Серебро:</a>
+                </i-column>
+                <i-column xs="3">
+                  <a>{{ silverMedals }}</a>
+                </i-column>
+              </i-row>
+              <i-row style="background-color: #e6c5a3" class="_padding-bottom-1 _padding-top-1">
+                <i-column xs="7">
+                  <a>Бронза:</a>
+                </i-column>
+                <i-column xs="3">
+                  <a>{{ bronzeMedals }}</a>
+                </i-column>
+              </i-row>
+            </i-container>
+          </i-layout-content>
         </i-layout>
-      </i-card>
-    </i-container>
+      </i-layout>
+    </i-card>
   </div>
 </template>
 
@@ -255,20 +201,3 @@ export default Vue.extend({
   },
 });
 </script>
-
-<style scoped>
-#calc-content {
-  background-color: rgba(255, 255, 255, 0.7) !important;
-}
-
-.my-select {
-  background-color: #3d72b0 !important;
-  border-color: #3d72b0 !important;
-}
-
-.text-header {
-  color: #233567 !important;
-  font-size: 20px;
-  text-align: center;
-}
-</style>

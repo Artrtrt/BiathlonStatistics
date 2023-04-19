@@ -42,7 +42,6 @@ async function MethodImportInfo() {
       competitions.data.forEach(
         (competition: any, competitionIndex: number) => {
           const categoryList = {} as { [category: string]: ResultUnit[] };
-          // const resultList = [] as ResultUnit[]
           results.data.forEach((result: any) => {
             if (result.competition === competitionIndex + 1) {
               if (categoryList[result.category]) {
@@ -58,7 +57,6 @@ async function MethodImportInfo() {
               } else {
                 categoryList[result.category] = [];
               }
-              // resultList.push({sportsman: result.sportsman, country: result.country, category: result.category, goldMedals: result.gold_medals, silverMedals: result.silver_medals, bronzeMedals: result.bronze_medals, points: result.points })
             }
           });
           if (competition.season === seasonIndex + 1) {
@@ -77,7 +75,7 @@ async function MethodImportInfo() {
       });
     });
   }
-  console.log(data.seasonList);
+  data.seasonList.reverse();
 }
 
 const method = {

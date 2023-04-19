@@ -1,16 +1,15 @@
 <template>
   <div style="height: 100%">
-
     <i-container class="_margin-bottom-1 _padding-bottom-1">
-      <div style="float: right; padding-right: -30px;">
+      <!-- <div style="float: right; padding-right: -30px;">
         <input class="search" style="width: 300px;" placeholder="Поиск по чемпионату" />
-      </div>
+      </div> -->
       <div id="title" class="_padding-top-1 _margin-bottom-1">
         <a>Список сезонов</a>
       </div>
-      <div style="background-color: #e8eeffc2" class="_padding-1">
+      <div style="background-color: #e8eeffc2; border-radius: 20px;" class="_padding-1">
         <div v-for="(season, indseason) in model.data.app.seasonList" :key="indseason"
-          class="_margin-bottom-2 season-title _padding-top-1 _padding-bottom-1" style="background-color: #e8eeffc2">
+          class="_margin-bottom-2 season-title _padding-top-1 _padding-bottom-1" style="background-color: #e8eeffc2; border-radius: 20px;">
           <i-container>
             <i-row>
               <i-column>{{ season.title }} {{ season.year }}</i-column>
@@ -45,9 +44,6 @@ export default Vue.extend({
     };
   },
   methods: {
-    foo() {
-      console.log('aaa');
-    }
   },
 });
 </script>
@@ -68,17 +64,21 @@ export default Vue.extend({
   color: #000000;
 }
 
+.competition-title:hover {
+  background: #c4cad8c2;
+}
+
 .date {
   color: #a1a1a1 !important;
 }
 
-.search {
+/* .search {
   background-color: #e8eeffc2;
   border: 0px;
   outline: none;
 }
 
 .serch:focus {
-  /* background-color: #e8fcff50; */
-}
+  background-color: #e8fcff50;
+} */
 </style>

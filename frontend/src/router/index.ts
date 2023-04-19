@@ -4,6 +4,9 @@ import VueRouter, { RouteConfig } from "vue-router";
 import Home from "@/views/home.vue";
 import Сalculator from "@/views/сalculator.vue";
 import Competition from "@/views/competition.vue";
+
+import Auth from "@/views/auth.vue";
+import Registration from "@/views/registration.vue";
 import Notfound from "@/views/notfound.vue";
 
 Vue.use(VueRouter);
@@ -31,6 +34,22 @@ const routes: Array<RouteConfig> = [
     component: Competition,
     meta: {
       title: "Соревнование",
+    },
+  },
+  {
+    path: "/auth",
+    name: "auth",
+    component: Auth,
+    meta: {
+      title: "Авторизация",
+    },
+  },
+  {
+    path: "/registration",
+    name: "registration",
+    component: Registration,
+    meta: {
+      title: "Регистрация",
     },
   },
   {
