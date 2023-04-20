@@ -7,18 +7,21 @@ function SetModel(input: any) {
 }
 
 type SeasonUnit = {
+  id: number;
   title: string;
   year: string;
   competitionList: CompetitionUnit[];
 };
 
 type CompetitionUnit = {
+  id: number;
   title: string;
   date: string;
   categoryList: { [category: string]: ResultUnit[] };
 };
 
 export type ResultUnit = {
+  id: number;
   sportsman: string;
   country: string;
   category: string;
@@ -46,6 +49,7 @@ async function MethodImportInfo() {
             if (result.competition === competitionIndex + 1) {
               if (categoryList[result.category]) {
                 categoryList[result.category].push({
+                  id: result.id,
                   sportsman: result.sportsman,
                   country: result.country,
                   category: result.category,
@@ -61,6 +65,7 @@ async function MethodImportInfo() {
           });
           if (competition.season === seasonIndex + 1) {
             competitionList.push({
+              id: competition.id,
               title: competition.title,
               date: competition.date,
               categoryList: categoryList,
@@ -69,6 +74,7 @@ async function MethodImportInfo() {
         }
       );
       data.seasonList.push({
+        id: season.id,
         title: season.title,
         year: season.year,
         competitionList: competitionList,

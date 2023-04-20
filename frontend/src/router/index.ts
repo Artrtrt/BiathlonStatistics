@@ -29,7 +29,7 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
-    path: "/competiton/:index?",
+    path: "/competition/:index?",
     name: "competition",
     component: Competition,
     meta: {

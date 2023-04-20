@@ -18,7 +18,7 @@
             <i-container>
               <i-list-group :bordered="false" style=" background-color: rgba(232, 238, 255, 0.76)">
                 <i-list-group-item v-for="(competition, indcomp) in season.competitionList" :key="indcomp"
-                  class="competition-title" :href="`/competiton/${indseason}${indcomp}`" style="color: #233567;">
+                  class="competition-title" @click="toCompetition(indseason, indcomp)" style="color: #233567;">
                   <a>{{ competition.title }}</a>
                     <a style="float:right" class="date">{{ competition.date }}</a>
                 </i-list-group-item>
@@ -44,6 +44,9 @@ export default Vue.extend({
     };
   },
   methods: {
+    toCompetition(season: number, competition: number) {
+      this.$router.push(`/competition/${season}.${competition}`)
+    }
   },
 });
 </script>

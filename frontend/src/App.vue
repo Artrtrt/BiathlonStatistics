@@ -1,7 +1,7 @@
 <template>
   <i-layout class="bg">
-    <i-layout-header class="_width-100 _padding-x-0 _padding-y-0">
-      <i-navbar class="header" :collapse="false">
+    <i-layout-header class="_width-100 _padding-x-0 _padding-y-0 header">
+      <i-navbar :collapse="false" style="height: 100%; z-index:1">
         <i-navbar-brand class="_display-xs-none _display-sm-none _display-md-none"><img class="logo"
             src="./assets/logo.jpg" /></i-navbar-brand>
         <i-navbar-items>
@@ -55,6 +55,7 @@ export default Vue.extend({
 <style>
 .header {
   background-color: #6e9ccf !important;
+  height: 80px;
 }
 
 .header a {
@@ -104,6 +105,7 @@ export default Vue.extend({
   color: #233567 !important;
   font-size: 20px;
   text-align: center;
+  white-space: nowrap;
 }
 
 .content-center {
