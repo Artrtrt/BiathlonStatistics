@@ -11,6 +11,7 @@
 # Сервисы
 * [Trello](https://clck.ru/33i9t7)
 * [Miro](https://miro.com/app/board/uXjVPiTXVPE=/)
+* [Figma](https://www.figma.com/file/h0HEN7Bf07phGvdKblxWio/Статистика-по-биатлону?node-id=31-986&t=ZxNAyBHevlHBJtJg-0)
 
 # Документация
 * [Техническое задание](https://github.com/Artrtrt/BiathlonStatistics/blob/main/docs/ТЗ.pdf)
