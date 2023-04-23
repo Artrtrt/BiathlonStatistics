@@ -69,7 +69,7 @@
       </div>
     </i-container>
 
-    <i-modal v-model=" showSeasonAdd " class="modal-bg">
+    <i-modal v-model=" showSeasonAdd ">
       <template slot="header">
         <div class="text-header color-white header">Добавить сезон</div>
       </template>
