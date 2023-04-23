@@ -1,7 +1,7 @@
 <template>
   <i-layout class="bg">
-    <i-layout-header class="_width-100 _padding-x-0 _padding-y-0 header">
-      <i-navbar :collapse="false" style="height: 100%; z-index:1">
+    <i-layout-header class="_padding-x-0 _padding-y-0">
+      <i-navbar class="header" :collapse="false" style="height: 100%; z-index:1">
         <i-navbar-brand class="_display-xs-none _display-sm-none _display-md-none"><img class="logo"
             src="./assets/logo.jpg" /></i-navbar-brand>
         <i-navbar-items>
@@ -18,8 +18,7 @@
         </i-navbar-items>
       </i-navbar>
     </i-layout-header>
-    <i-layout-content class="_padding-left-0 _padding-right-lg-1 _padding-right-xl-1 _overflow-auto"
-      style="height: calc(100vh - 60px)">
+    <i-layout-content class="_overflow-auto">
       <div v-if="model.data.app.seasonList.length === 0"
         style="height: 5vw; width: 5vw; position: absolute; top: 50%; left: 48%;">
         <i-loader size="auto" variant="dark" />
@@ -36,11 +35,10 @@ import Vue from "vue";
 import * as model from "@/module/model";
 
 export default Vue.extend({
-  name: "NetworkLan",
+  name: "App",
   data() {
     return {
       model,
-      active: "home",
     };
   },
   methods: {
@@ -55,7 +53,6 @@ export default Vue.extend({
 <style>
 .header {
   background-color: #6e9ccf !important;
-  height: 80px;
 }
 
 .header a {
@@ -82,9 +79,17 @@ export default Vue.extend({
   border-radius: 10px !important;
 }
 
-.button-dunger {
-  background-color: #f25f5c !important;
-  border-color: #f25f5c !important;
+
+/* .button-info {
+  background-color: #49bdd1 !important;
+  border-color: #49bdd1 !important;
+  color: #ffffff !important;
+  border-radius: 10px !important;
+} */
+
+.button-danger {
+  background-color: #ec706e !important;
+  border-color: #ec706e !important;
   color: #ffffff !important;
   border-radius: 10px !important;
 }
@@ -96,8 +101,24 @@ export default Vue.extend({
   pointer-events: none;
 }
 
+.button-icon {
+  cursor: pointer;
+  border-radius: 30px;
+  height: 31px;
+  width: 31px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-icon:hover {
+  background-color: #c4cad8c2;
+  ;
+}
+
 .bg {
   background: url("@/assets/bg.jpg") 0 0 / cover no-repeat fixed;
+  height: 100vh;
 }
 
 .text-header {
@@ -120,5 +141,26 @@ export default Vue.extend({
   width: 600px;
   margin-right: 20px;
   margin-left: 20px;
+}
+
+.link {
+  text-decoration: underline !important;
+  cursor: pointer;
+}
+
+.color-white {
+  color: #ffffff !important;
+}
+
+.bg-gold {
+  background-color: #f6fab4 !important;
+}
+
+.bg-silver {
+  background-color: #e6e6e6 !important;
+}
+
+.bg-bronze {
+  background-color: #e6c5a3 !important;
 }
 </style>

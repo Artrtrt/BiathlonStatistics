@@ -7,6 +7,7 @@ function SetModel(input: any) {
 }
 
 const data = {
+    isAdmin: false,
 };
 
 async function MethodLogin(login: string, password: string) {

@@ -30,7 +30,7 @@
         </i-row>
         <i-row class="_margin-bottom-1">
           <i-column style="text-align: center;">
-            Если у вас нет аккаунта можете <a href="/registration">зарегистрироваться</a>
+            Если у вас нет аккаунта можете <a @click="toRegistration" class="link">зарегистрироваться</a>
           </i-column>
         </i-row>
       </i-container>
@@ -43,7 +43,7 @@ import Vue from "vue";
 import * as model from "@/module/model";
 
 export default Vue.extend({
-  name: "NetworkLan",
+  name: "AuthPage",
   data() {
     return {
       model,
@@ -53,6 +53,9 @@ export default Vue.extend({
     };
   },
   methods: {
+    toRegistration() {
+      this.$router.push('/registration');
+    },
     async auth() {
       await model.method.auth.login(this.login, this.password);
     }

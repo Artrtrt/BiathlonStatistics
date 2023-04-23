@@ -14,7 +14,7 @@
             </i-column>
             <i-column xs="7" md="7">
               <i-form-group>
-                <i-input v-model="firstname" :schema="formRegistration.firstname"/>
+                <i-input v-model="firstname" :schema="formRegistration.firstname" />
               </i-form-group>
             </i-column>
           </i-row>
@@ -24,7 +24,7 @@
             </i-column>
             <i-column xs="7" md="7">
               <i-form-group>
-                <i-input v-model="lastname" :schema="formRegistration.lastname"/>
+                <i-input v-model="lastname" :schema="formRegistration.lastname" />
               </i-form-group>
             </i-column>
           </i-row>
@@ -34,7 +34,7 @@
             </i-column>
             <i-column xs="7" md="7">
               <i-form-group>
-                <i-input v-model="login" :schema="formRegistration.login"/>
+                <i-input v-model="login" :schema="formRegistration.login" />
               </i-form-group>
             </i-column>
           </i-row>
@@ -44,21 +44,21 @@
             </i-column>
             <i-column xs="7" md="7">
               <i-form-group>
-                <i-input type="password" v-model="password" :schema="formRegistration.password"/>
+                <i-input type="password" v-model="password" :schema="formRegistration.password" />
               </i-form-group>
             </i-column>
           </i-row>
-        <i-row class="_margin-bottom-1">
-          <i-column style="display: flex; justify-content: center;">
-            <i-form-group>
-            <i-button type="submit" @click="registration" class="button-confirm">Зарегистрироваться</i-button>
-          </i-form-group>
-          </i-column>
-        </i-row>
-      </i-form>
+          <i-row class="_margin-bottom-1">
+            <i-column style="display: flex; justify-content: center;">
+              <i-form-group>
+                <i-button type="submit" @click="registration" class="button-confirm">Зарегистрироваться</i-button>
+              </i-form-group>
+            </i-column>
+          </i-row>
+        </i-form>
         <i-row class="_margin-bottom-1">
           <i-column style="text-align: center;">
-            Если у вас есть аккаунта можете <a href="/auth">войти</a>
+            Если у вас есть аккаунта можете <a @click="toAuth" class="link">войти</a>
           </i-column>
         </i-row>
       </i-container>
@@ -71,7 +71,7 @@ import Vue from "vue";
 import * as model from "@/module/model";
 
 export default Vue.extend({
-  name: "NetworkLan",
+  name: "RegistrationPage",
   data() {
     return {
       model,
@@ -90,7 +90,7 @@ export default Vue.extend({
         },
         lastname: {
           validators: [
-          { rule: 'minLength', value: 1, message: "Поле не должно быть пустым" },
+            { rule: 'minLength', value: 1, message: "Поле не должно быть пустым" },
             { rule: 'custom', validator: (v: any) => /^[а-яА-Яa-zA-Z]*$/.test(v), message: "Вводите только буквы" }
           ]
         },
@@ -109,6 +109,9 @@ export default Vue.extend({
     };
   },
   methods: {
+    toAuth() {
+      this.$router.push('/auth');
+    },
     async registration() {
       if (this.formRegistration.valid && this.formRegistration.dirty) {
         await model.method.auth.registration(this.firstname, this.lastname, this.login, this.password);
