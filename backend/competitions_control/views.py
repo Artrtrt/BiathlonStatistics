@@ -1,13 +1,9 @@
-from django.http import HttpResponse
-from django.shortcuts import render
-from pymongo.response import Response
 from rest_framework import generics
-from rest_framework.generics import ListAPIView
-from rest_framework.views import APIView
-from russian_names import RussianNames
 from .serializers import *
 from .models import Season
 from russian_names import RussianNames
+
+
 
 
 class SeasonAPI(generics.ListAPIView):
@@ -42,7 +38,7 @@ class CompetitionAPI(generics.ListAPIView):
     #     queryset = Competition.objects.all()
     #     serializer_class = CompetitionSerializer
 
-# Заполняет таблицу имен
+
 # def patch():
 #     for n in range(1, 1061):
 #         c = Result.objects.get(pk=n)
