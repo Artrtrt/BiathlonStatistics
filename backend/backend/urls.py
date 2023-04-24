@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, re_path, include
 from competitions_control.views import *
 import competitions_control.views
-# from users_control.views import RegistrUserView
+from users_control.views import RegistrUserView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,6 +28,6 @@ urlpatterns = [
     path('auth/', include('djoser.urls')),
     re_path(r'^auth/', include('djoser.urls.authtoken')),
     # path('api/v1/drf-auth/', include('rest_framework.urls')),
-    # path('api/v1/registr/', RegistrUserView.as_view())
+    path('api/v1/registr/', RegistrUserView.as_view())
     # path("seasons/<pk>/", SeasonAPIUpdate.as_view())
 ]
