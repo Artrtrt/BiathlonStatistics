@@ -4,9 +4,9 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 
 class MyUserManager(BaseUserManager):
     def _create_user(self, username, password, first_name, last_name, **extra_fields):
-
-        if not username:
+        if len(username)<3:
             raise ValueError("Вы не ввели Логин")
+
         user = self.model(
             username=username,
             first_name=first_name,
@@ -19,12 +19,10 @@ class MyUserManager(BaseUserManager):
         return user
 
     def create_user(self, username, password, first_name, last_name):
-
         return self._create_user(username, password, first_name, last_name)
 
-    def create_superuser(self,username, password, first_name, last_name):
-        return self._create_user(username, password,first_name, last_name, is_staff=True, is_superuser=True)
-
+    def create_superuser(self, username, password, first_name, last_name):
+        return self._create_user(username, password, first_name, last_name, is_staff=True, is_superuser=True)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -34,12 +32,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=50, unique=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    is_superuser=models.BooleanField(default=False)
 
     USERNAME_FIELD = 'username'
 
-
     objects = MyUserManager()
-
 
     def __str__(self):
         return self.email

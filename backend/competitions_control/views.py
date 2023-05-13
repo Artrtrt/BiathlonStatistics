@@ -4,8 +4,6 @@ from .models import Season
 from russian_names import RussianNames
 
 
-
-
 class SeasonAPI(generics.ListAPIView):
     queryset = Season.objects.all()
     serializer_class = SeasonSerializer
@@ -16,30 +14,7 @@ class SeasonAPI(generics.ListAPIView):
 #     serializer_class = SeasonSerializer
 
 
-class ResultAPI(generics.ListAPIView):
-    queryset = Result.objects.all()
-    serializer_class = ResultSerializer
-    # def bd(self):
-    #     for n in range(1078):
-    #         c = Result.objects.get(pk=n)
-    #         c.sportsman = RussianNames().get_person()
-
-
-# class CompetitionAPIUpdate(generics.UpdateAPIView):
-#     queryset = Result.objects.all()
-#     serializer_class = ResultSerializer
-
-
-class CompetitionAPI(generics.ListAPIView):
-    queryset = Competition.objects.all()
-    serializer_class = CompetitionSerializer
-
-    # class CompetitionAPIUpdate(generics.UpdateAPIView):
-    #     queryset = Competition.objects.all()
-    #     serializer_class = CompetitionSerializer
-
-
-# def patch():
+# def patch1():
 #     for n in range(1, 1061):
 #         c = Result.objects.get(pk=n)
 #         b = "Мужчины"
@@ -54,3 +29,23 @@ class CompetitionAPI(generics.ListAPIView):
 #             else:
 #                 c.sportsman = RussianNames().get_person()
 #                 c.save(update_fields=["sportsman"])
+#
+
+class ResultAPI(generics.ListAPIView):
+    queryset = Result.objects.all()
+    serializer_class = ResultSerializer
+
+
+
+# class CompetitionAPIUpdate(generics.UpdateAPIView):
+#     queryset = Result.objects.all()
+#     serializer_class = ResultSerializer
+
+
+class CompetitionAPI(generics.ListAPIView):
+    queryset = Competition.objects.all()
+    serializer_class = CompetitionSerializer
+
+    # class CompetitionAPIUpdate(generics.UpdateAPIView):
+    #     queryset = Competition.objects.all()
+    #     serializer_class = CompetitionSerializer
