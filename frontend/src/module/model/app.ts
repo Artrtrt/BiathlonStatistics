@@ -1,4 +1,4 @@
-import axios from "axios";
+import * as fetchInfo from "../api/fetchInfoApi";
 
 let model: any = {};
 
@@ -32,17 +32,17 @@ const data = {
   seasonList: [] as SeasonUnit[],
 };
 
-async function MethodImportInfo() {
+async function importInfo() {
   if (data.seasonList.length === 0) {
-    const seasons = await axios.get("http://127.0.0.1:8000/seasons/");
-    const competitions = await axios.get("http://127.0.0.1:8000/competitions/");
-    const results = await axios.get("http://127.0.0.1:8000/results/");
-    seasons.data.forEach((season: any, seasonIndex: number) => {
+    const seasons = await fetchInfo.fetchSeasonList()
+    const competitions = await fetchInfo.fetchCompetitionList()
+    const results = await fetchInfo.fetchResultList()
+    seasons.forEach((season: any, seasonIndex: number) => {
       const competitionList = [] as CompetitionUnit[];
-      competitions.data.forEach(
+      competitions.forEach(
         (competition: any, competitionIndex: number) => {
           const categoryList = {} as { [category: string]: ResultUnit[] };
-          results.data.forEach((result: any) => {
+          results.forEach((result: any) => {
             if (result.competition === competitionIndex + 1) {
               if (categoryList[result.category]) {
                 categoryList[result.category].push({
@@ -77,13 +77,13 @@ async function MethodImportInfo() {
   }
   data.seasonList.reverse();
 }
-async function MethodExportInfo() {
+async function exportInfo() {
   console.log('aaa');
 }
 
 const method = {
-  import: MethodImportInfo,
-  export: MethodExportInfo,
+  import: importInfo,
+  export: exportInfo,
 };
 
 export { SetModel, data, method };

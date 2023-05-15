@@ -1,9 +1,10 @@
 <template>
   <div style="height: 100%">
     <i-container class="_padding-bottom-1">
-      <!-- <div style="float: right; padding-right: -30px;">
-        <input class="search" style="width: 300px;" placeholder="Поиск по чемпионату" />
-      </div> -->
+      <div style="float: right; padding-right: -30px; display: flex; grid-gap: 10px;" class="search">
+        <input @keydown.enter="search" ref="search-input" style="width: 300px;" placeholder="Поиск по чемпионату" />
+        <img @click="search" src="@/assets/magnifier.svg" class="button-icon" />
+      </div>
       <div id="title" class="_padding-top-1 _margin-bottom-1">
         <a>Список сезонов </a>
         <a v-if="model.data.app.seasonList.length === 0">пуст</a>
@@ -12,101 +13,109 @@
         сезон</i-button>
       <div v-if="model.data.app.seasonList.length !== 0" style="background-color: #e8eeffc2; border-radius: 10px;"
         class="_padding-1">
-        <div v-for="(season, seasonIndex) in      model.data.app.seasonList     " :key="seasonIndex"
-          class="_margin-bottom-1 season-title _padding-1" style="background-color: #e8eeffc2; border-radius: 10px;">
-          <i-container>
-            <i-row style="align-items: center;">
-              <i-column v-if="showСhangeSeason[seasonIndex]" style="display: flex; flex-wrap: wrap; grid-gap: 10px;">
-                <i-input v-model="changedSeasonTitle"></i-input>
-                <i-input v-model="changedSeasonYear"></i-input>
-              </i-column>
-              <i-column class="_margin-left-1" v-else>{{ season.title }} {{ season.year }}</i-column>
-              <div v-if="isAdmin" style="float:right; display: flex; flex-wrap: wrap; grid-gap: 10px;">
-                <div v-if="!showСhangeSeason[seasonIndex]" class="button-icon"
-                  @click="showCompetitionAdd = true; seasonInd = seasonIndex">
-                  <img src="@/assets/plus.svg" />
-                </div>
-                <IConfirmationButton @confirm=" changeSeason(seasonIndex) "
-                  @primary=" tempChangeSeason(season.title, season.year, seasonIndex) "
-                  @cancel=" showСhangeSeason[seasonIndex] = false; $forceUpdate() ">
-                </IConfirmationButton>
-                <div @click=" deleteSeason(seasonIndex) " v-if=" !showСhangeSeason[seasonIndex] " class="button-icon">
-                  <img src="@/assets/trash.svg" />
-                </div>
-              </div>
-            </i-row>
-            <hr>
-            <div v-for="(     competition, compIndex     ) in      season.competitionList     " :key=" compIndex ">
+        <div v-if="!isMatch">
+          <div class="_margin-bottom-1">Совпадений не найдено</div>
+          <i-button @click="cancelSearch" class="button-confirm">Отменить поиск</i-button>
+        </div>
+        <div v-for="(season, seasonIndex) in model.data.app.seasonList" :key="seasonIndex">
+          <div v-if="isMatchSeason[seasonIndex]" class="_margin-bottom-1 season-title _padding-1"
+            style="background-color: #e8eeffc2; border-radius: 10px;">
+            <i-container>
               <i-row style="align-items: center;">
-                <i-column v-if=" showСhangeCompetition[seasonIndex][compIndex] "
-                  style="display: flex; flex-wrap: wrap; grid-gap: 10px;">
-                  <i-input v-model=" changedCompetitionTitle "></i-input>
-                  <i-input v-model=" changedCompetitionDate "></i-input>
+                <i-column v-if="showСhangeSeason[seasonIndex]" style="display: flex; flex-wrap: wrap; grid-gap: 10px;">
+                  <i-input v-model="changedSeasonTitle"></i-input>
+                  <i-input v-model="changedSeasonYear"></i-input>
                 </i-column>
-                <i-column v-else>
-                  <div class="competition-title" @click=" toCompetition(seasonInd, compIndex) ">
-                    <a>{{ competition.title }}</a>
-                    <a style="float:right" class="date"> {{ competition.date }}</a>
+                <i-column class="_margin-left-1" v-else>{{ season.title }} {{ season.year }}</i-column>
+                <div v-if="isAdmin" style="float:right; display: flex; flex-wrap: wrap; grid-gap: 10px;">
+                  <div v-if="!showСhangeSeason[seasonIndex]" class="button-icon"
+                    @click="showCompetitionAdd = true; seasonInd = seasonIndex">
+                    <img src="@/assets/plus.svg" />
                   </div>
-                </i-column>
-                <div v-if=" isAdmin " style="float: right; display: flex; flex-wrap: wrap; grid-gap: 10px;"
-                  class="_margin-left-1">
-                  <IConfirmationButton @confirm=" changeCompetition(seasonIndex, compIndex) "
-                    @primary=" tempChangeCompetition(competition.title, competition.date, seasonIndex, compIndex) "
-                    @cancel=" showСhangeCompetition[seasonIndex][compIndex] = false; $forceUpdate() ">
-                  </IConfirmationButton>
-                  <div v-if=" !showСhangeCompetition[seasonIndex][compIndex] "
-                    @click=" deleteCompetition(seasonIndex, compIndex) " class="button-icon">
+                  <confirmationButton @confirm=" changeSeason(seasonIndex)"
+                    @primary=" tempChangeSeason(season.title, season.year, seasonIndex)"
+                    @cancel=" showСhangeSeason[seasonIndex] = false; $forceUpdate()">
+                  </confirmationButton>
+                  <div @click=" deleteSeason(seasonIndex)" v-if="!showСhangeSeason[seasonIndex]" class="button-icon">
                     <img src="@/assets/trash.svg" />
                   </div>
                 </div>
               </i-row>
-              <hr class="_margin-0" v-if=" compIndex !== season.competitionList.length - 1 "
-                style="background-color: #f0f0f0c9;">
-            </div>
-          </i-container>
+              <hr>
+              <div v-for="(      competition, compIndex      ) in       season.competitionList      " :key="compIndex">
+                <div v-if="competition.title.match(searchStr)">
+                  <i-row style="align-items: center;">
+                    <i-column v-if="showСhangeCompetition[seasonIndex][compIndex]"
+                      style="display: flex; flex-wrap: wrap; grid-gap: 10px;">
+                      <i-input v-model="changedCompetitionTitle"></i-input>
+                      <i-input v-model="changedCompetitionDate"></i-input>
+                    </i-column>
+                    <i-column v-else>
+                      <div class="competition-title" @click=" toCompetition(seasonInd, compIndex)">
+                        <a>{{ competition.title }}</a>
+                        <a style="float:right" class="date"> {{ competition.date }}</a>
+                      </div>
+                    </i-column>
+                    <div v-if="isAdmin" style="float: right; display: flex; flex-wrap: wrap; grid-gap: 10px;"
+                      class="_margin-left-1">
+                      <confirmationButton @confirm=" changeCompetition(seasonIndex, compIndex)"
+                        @primary=" tempChangeCompetition(competition.title, competition.date, seasonIndex, compIndex)"
+                        @cancel=" showСhangeCompetition[seasonIndex][compIndex] = false; $forceUpdate()">
+                      </confirmationButton>
+                      <div v-if="!showСhangeCompetition[seasonIndex][compIndex]"
+                        @click=" deleteCompetition(seasonIndex, compIndex)" class="button-icon">
+                        <img src="@/assets/trash.svg" />
+                      </div>
+                    </div>
+                  </i-row>
+                  <hr class="_margin-0" v-if="compIndex !== season.competitionList.length - 1"
+                    style="background-color: #f0f0f0c9;">
+                </div>
+              </div>
+            </i-container>
+          </div>
         </div>
       </div>
     </i-container>
 
-    <i-modal v-model=" showSeasonAdd ">
+    <i-modal v-model="showSeasonAdd">
       <template slot="header">
         <div class="text-header color-white header">Добавить сезон</div>
       </template>
       <i-container>
         <i-row class="_margin-bottom-1">
           <i-column xs="4" md="3" style="display: flex; align-items: center;">Название:</i-column>
-          <i-column xs="8"><i-input v-model=" seasonTitle "></i-input></i-column>
+          <i-column xs="8"><i-input v-model="seasonTitle"></i-input></i-column>
         </i-row>
         <i-row class="_margin-bottom-2">
           <i-column xs="4" md="3" style="display: flex; align-items: center;">Период:</i-column>
-          <i-column xs="8"><i-input v-model=" seasonYear "></i-input></i-column>
+          <i-column xs="8"><i-input v-model="seasonYear"></i-input></i-column>
         </i-row>
         <div style="display: flex; justify-content: center;">
           <i-button style="width: 130px;" variant="primary" class="_margin-right-1 button-confirm"
-            @click=" addSeason ">Добавить</i-button>
-          <i-button class="button-danger" @click=" cleanSeason " style="width: 130px;">Отмена</i-button>
+            @click="addSeason">Добавить</i-button>
+          <i-button class="button-danger" @click="cleanSeason" style="width: 130px;">Отмена</i-button>
         </div>
       </i-container>
     </i-modal>
 
-    <i-modal v-model=" showCompetitionAdd ">
+    <i-modal v-model="showCompetitionAdd">
       <template slot="header">
         <div class="text-header color-white">Добавить соревнование</div>
       </template>
       <i-container>
         <i-row class="_margin-bottom-1">
           <i-column xs="4" md="3" style="display: flex; align-items: center;">Название:</i-column>
-          <i-column xs="8"><i-input v-model=" competitionTitle "></i-input></i-column>
+          <i-column xs="8"><i-input v-model="competitionTitle"></i-input></i-column>
         </i-row>
         <i-row class="_margin-bottom-2">
           <i-column xs="4" md="3" style="display: flex; align-items: center;">Дата:</i-column>
-          <i-column xs="8"><i-input v-model=" competitionDate "></i-input></i-column>
+          <i-column xs="8"><i-input v-model="competitionDate"></i-input></i-column>
         </i-row>
         <div style="display: flex; justify-content: center;">
           <i-button style="width: 130px;" variant="primary" class="_margin-right-1 button-confirm"
-            @click=" addCompetition ">Добавить</i-button>
-          <i-button class="button-danger" @click=" cleanCompetition " style="width: 130px;">Отмена</i-button>
+            @click="addCompetition">Добавить</i-button>
+          <i-button class="button-danger" @click="cleanCompetition" style="width: 130px;">Отмена</i-button>
         </div>
       </i-container>
     </i-modal>
@@ -116,7 +125,8 @@
 <script lang="ts">
 import Vue from "vue";
 import * as model from "@/module/model";
-import IConfirmationButton from "@/components/IConfirmationButton.vue"
+import confirmationButton from "@/components/confirmationButton.vue"
+
 
 export default Vue.extend({
   name: "HomePage",
@@ -125,6 +135,10 @@ export default Vue.extend({
       model,
 
       isAdmin: model.data.auth.isAdmin,
+      searchStr: '',
+      isMatchSeason: [] as boolean[],
+      isMatch: true,
+
       showSeasonAdd: false,
       seasonTitle: '',
       seasonYear: '',
@@ -142,11 +156,41 @@ export default Vue.extend({
     };
   },
   components: {
-    IConfirmationButton,
+    confirmationButton,
   },
   methods: {
     toCompetition(season: number, competition: number) {
       this.$router.push(`/competition/${season}.${competition}`)
+    },
+    search() {
+      const elem = this.$refs['search-input'] as HTMLInputElement; // eslint-disable-line
+      this.searchStr = elem.value;
+      let isMatchCompetition = false;
+      model.data.app.seasonList.forEach((season, seasonIndex) => {
+        season.competitionList.forEach((competition: any) => {
+          if (competition.title.match(this.searchStr)) {
+            isMatchCompetition = true;
+            return
+          }
+        });
+        this.isMatchSeason[seasonIndex] = isMatchCompetition;
+        isMatchCompetition = false;
+      });
+      this.isMatch = false;
+      this.isMatchSeason.forEach((match) => {
+        if (match) {
+          this.isMatch = true;
+        }
+      })
+      this.$forceUpdate();
+    },
+    cancelSearch() {
+      this.searchStr = '';
+      this.isMatchSeason.fill(true);
+      this.isMatch = true;
+      const elem = this.$refs['search-input'] as HTMLInputElement; // eslint-disable-line
+      elem.value = '';
+      this.$forceUpdate();
     },
     cleanSeason() {
       this.showSeasonAdd = false;
@@ -154,7 +198,7 @@ export default Vue.extend({
       this.seasonYear = '';
     },
     addSeason() {
-      model.data.app.seasonList.unshift({ title: this.seasonTitle, year: this.seasonYear, competitionList: [] })
+      model.data.app.seasonList.push({ title: this.seasonTitle, year: this.seasonYear, competitionList: [] })
       this.cleanSeason();
     },
     tempChangeSeason(title: string, year: string, ind: number) {
@@ -218,6 +262,7 @@ export default Vue.extend({
       const filledCompetitionArray = Array(length).fill(false, 0, length);
       this.showСhangeCompetition[index] = filledCompetitionArray;
       this.showСhangeSeason.push(false);
+      this.isMatchSeason.push(true);
     });
   },
 });
@@ -253,13 +298,17 @@ export default Vue.extend({
   background-color: #C3D7ED;
 }
 
-/* .search {
+.search {
+  padding: 5px;
   background-color: #e8eeffc2;
+  border-radius: 0px 0px 5px 5px;
+}
+
+.search input {
+  background-color: #e8eeffc2;
+  height: 30px;
+  padding: 15px;
   border: 0px;
   outline: none;
 }
-
-.serch:focus {
-  background-color: #e8fcff50;
-} */
 </style>

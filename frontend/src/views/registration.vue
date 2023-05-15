@@ -48,10 +48,26 @@
               </i-form-group>
             </i-column>
           </i-row>
+          <i-row class="_margin-bottom-1 row-center">
+            <i-column xs="4" md="3">
+              Подтвердите пароль
+            </i-column>
+            <i-column xs="7" md="7">
+              <i-form-group>
+                <i-input type="password" :schema="formRegistration.passwordConfirmation" />
+              </i-form-group>
+            </i-column>
+          </i-row>
+          <i-row v-if="hasError" class="_margin-bottom-1">
+            <i-column style="display: flex; justify-content: center; color: red">
+              {{ errorMessage }}
+            </i-column>
+          </i-row>
           <i-row class="_margin-bottom-1">
             <i-column style="display: flex; justify-content: center;">
               <i-form-group>
-                <i-button type="submit" @click="registration" class="button-confirm">Зарегистрироваться</i-button>
+                <i-button :disabled="!formRegistration.valid || !isDirty" type="submit" @click="registration"
+                  class="button-confirm">Зарегистрироваться</i-button>
               </i-form-group>
             </i-column>
           </i-row>
@@ -81,23 +97,26 @@ export default Vue.extend({
       login: '',
       password: '',
 
+      hasError: false,
+      errorMessage: '',
+
       formRegistration: this.$inkline.form({
         firstname: {
           validators: [
             { rule: 'minLength', value: 1, message: "Поле не должно быть пустым" },
-            { rule: 'custom', validator: (v: any) => /^[а-яА-Яa-zA-Z]*$/.test(v), message: "Вводите только буквы" }
+            { rule: 'custom', validator: (v: any) => /^[а-яёА-ЯЁa-zA-Z]*$/.test(v), message: "Вводите только буквы" }
           ]
         },
         lastname: {
           validators: [
             { rule: 'minLength', value: 1, message: "Поле не должно быть пустым" },
-            { rule: 'custom', validator: (v: any) => /^[а-яА-Яa-zA-Z]*$/.test(v), message: "Вводите только буквы" }
+            { rule: 'custom', validator: (v: any) => /^[а-яёА-ЯЁa-zA-Z]*$/.test(v), message: "Вводите только буквы" }
           ]
         },
         login: {
           validators: [
             { rule: 'minLength', value: 3, message: "Длина должна быть больше 2 символов" },
-            { rule: 'custom', validator: (v: any) => /^\w*$/.test(v), message: "Вводите только буквы и цифры" }
+            { rule: 'custom', validator: (v: any) => /^\w*$/.test(v), message: "Вводите только латинские буквы или цифры" }
           ]
         },
         password: {
@@ -105,6 +124,11 @@ export default Vue.extend({
             { rule: 'minLength', value: 6, message: "Длина должна быть больше 5 символов" }
           ]
         },
+        passwordConfirmation: {
+          validators: [
+            { rule: 'sameAs', target: 'password', message: "Пароли не совпадают" }
+          ]
+        }
       })
     };
   },
@@ -113,9 +137,22 @@ export default Vue.extend({
       this.$router.push('/auth');
     },
     async registration() {
-      if (this.formRegistration.valid && this.formRegistration.dirty) {
-        await model.method.auth.registration(this.firstname, this.lastname, this.login, this.password);
+      this.hasError = false;
+      this.errorMessage = '';
+      if (this.formRegistration.valid && this.isDirty) {
+        try {
+          await model.method.auth.registration(this.firstname, this.lastname, this.login, this.password);
+          this.$router.push('/');
+        } catch (err: any) {
+          this.hasError = true;
+          this.errorMessage = err.message;
+        }
       }
+    }
+  },
+  computed: {
+    isDirty(): boolean {
+      return this.formRegistration.firstname.dirty && this.formRegistration.lastname.dirty && this.formRegistration.login.dirty && this.formRegistration.password.dirty && this.formRegistration.passwordConfirmation.dirty;
     }
   },
 });
