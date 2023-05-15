@@ -1,17 +1,36 @@
 from rest_framework import generics
+from rest_framework.generics import GenericAPIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import mixins
 from .serializers import *
 from .models import Season
 from russian_names import RussianNames
 
 
-class SeasonAPI(generics.ListAPIView):
+class SeasonAPIList(generics.ListAPIView):
     queryset = Season.objects.all()
     serializer_class = SeasonSerializer
 
 
-# class SeasonAPIUpdate(generics.UpdateAPIView):
-#     queryset = Season.objects.all()
-#     serializer_class = SeasonSerializer
+class SeasonAPICreate(generics.CreateAPIView):
+    queryset = Season.objects.all()
+    serializer_class = SeasonSerializer
+
+
+class SeasonAPIUpdateDestroy(mixins.UpdateModelMixin,
+                             mixins.DestroyModelMixin,
+                             GenericAPIView):
+    queryset = Season.objects.all()
+    serializer_class = SeasonSerializer
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 
 # def patch1():
@@ -31,21 +50,53 @@ class SeasonAPI(generics.ListAPIView):
 #                 c.save(update_fields=["sportsman"])
 #
 
-class ResultAPI(generics.ListAPIView):
+class ResultAPIList(generics.ListAPIView):
     queryset = Result.objects.all()
     serializer_class = ResultSerializer
 
 
+class ResultAPIUpdateDestroy(mixins.UpdateModelMixin,
+                             mixins.DestroyModelMixin,
+                             GenericAPIView):
+    queryset = Result.objects.all()
+    serializer_class = ResultSerializer
 
-# class CompetitionAPIUpdate(generics.UpdateAPIView):
-#     queryset = Result.objects.all()
-#     serializer_class = ResultSerializer
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 
-class CompetitionAPI(generics.ListAPIView):
+class ResultAPICreate(generics.CreateAPIView):
+    queryset = Result.objects.all()
+    serializer_class = ResultSerializer
+
+
+class CompetitionAPIList(generics.ListAPIView):
     queryset = Competition.objects.all()
     serializer_class = CompetitionSerializer
 
-    # class CompetitionAPIUpdate(generics.UpdateAPIView):
-    #     queryset = Competition.objects.all()
-    #     serializer_class = CompetitionSerializer
+
+class CompetitionAPIUpdateDestroy(mixins.UpdateModelMixin,
+                                  mixins.DestroyModelMixin,
+                                  GenericAPIView):
+    queryset = Competition.objects.all()
+    serializer_class = CompetitionSerializer
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
+
+class CompetitionAPICreate(generics.CreateAPIView):
+    queryset = Competition.objects.all()
+    serializer_class = CompetitionSerializer

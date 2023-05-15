@@ -14,23 +14,27 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, re_path, include
+
+from django.urls import path
+
+from chat_control.views import MessageAPI, MessageAPICreate
 from competitions_control.views import *
-import competitions_control.views
-from users_control.views import RegistrUserView, TokenCreateView, TokenCreateViewApi
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
+
+from users_control.views import RegistrUserView, TokenCreateViewApi
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path("seasons/", SeasonAPI.as_view()),
-    path("results/", ResultAPI.as_view()),
-    path("competitions/", CompetitionAPI.as_view()),
-
+    path("seasons/", SeasonAPIList.as_view()),
+    path("results/", ResultAPIList.as_view()),
+    path("competitions/", CompetitionAPIList.as_view()),
+    path("seasonsCreate/", SeasonAPICreate.as_view()),
+    path("seasonsCreate/", ResultAPICreate.as_view()),
+    path("seasonsCreate/", CompetitionAPICreate.as_view()),
+    path('seasonsUpdateDelete/<int:pk>/', SeasonAPIUpdateDestroy.as_view()),
+    path('resultsUpdateDelete/<int:pk>/', ResultAPIUpdateDestroy.as_view()),
+    path('scompetitionsUpdateDelete/<int:pk>/', CompetitionAPIUpdateDestroy.as_view()),
     path('registration/', RegistrUserView.as_view()),
     path('login/', TokenCreateViewApi.as_view()),
+    path('all_chat/', MessageAPI.as_view()),
+    path('add_message/', MessageAPICreate.as_view()),
 
 ]
