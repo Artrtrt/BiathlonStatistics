@@ -17,20 +17,14 @@ class SeasonAPICreate(generics.CreateAPIView):
     serializer_class = SeasonSerializer
 
 
-class SeasonAPIUpdateDestroy(mixins.UpdateModelMixin,
-                             mixins.DestroyModelMixin,
-                             GenericAPIView):
+class SeasonAPIUpdate(generics.UpdateAPIView):
     queryset = Season.objects.all()
     serializer_class = SeasonSerializer
 
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
 
-    def patch(self, request, *args, **kwargs):
-        return self.partial_update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+class SeasonAPIDelete(generics.DestroyAPIView):
+    queryset = Season.objects.all()
+    serializer_class = SeasonSerializer
 
 
 # def patch1():
@@ -55,20 +49,14 @@ class ResultAPIList(generics.ListAPIView):
     serializer_class = ResultSerializer
 
 
-class ResultAPIUpdateDestroy(mixins.UpdateModelMixin,
-                             mixins.DestroyModelMixin,
-                             GenericAPIView):
+class ResultAPIUpdate(generics.UpdateAPIView):
     queryset = Result.objects.all()
     serializer_class = ResultSerializer
 
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
 
-    def patch(self, request, *args, **kwargs):
-        return self.partial_update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+class ResultAPIDelete(generics.DestroyAPIView):
+    queryset = Result.objects.all()
+    serializer_class = ResultSerializer
 
 
 class ResultAPICreate(generics.CreateAPIView):
@@ -81,20 +69,14 @@ class CompetitionAPIList(generics.ListAPIView):
     serializer_class = CompetitionSerializer
 
 
-class CompetitionAPIUpdateDestroy(mixins.UpdateModelMixin,
-                                  mixins.DestroyModelMixin,
-                                  GenericAPIView):
+class CompetitionAPIUpdate(generics.UpdateAPIView):
     queryset = Competition.objects.all()
     serializer_class = CompetitionSerializer
 
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
 
-    def patch(self, request, *args, **kwargs):
-        return self.partial_update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+class CompetitionAPIDelete(generics.DestroyAPIView):
+    queryset = Competition.objects.all()
+    serializer_class = CompetitionSerializer
 
 
 class CompetitionAPICreate(generics.CreateAPIView):
