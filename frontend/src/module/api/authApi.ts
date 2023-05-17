@@ -26,4 +26,4 @@ async function registration(name: string, lastname: string, login: string, passw
   }
 }
 
-export { login, registration}
+export { login, registration }
