@@ -5,18 +5,18 @@ async function fetchMessageList() {
     const chatList = await axios.get("http://127.0.0.1:8000/all_chat/");
     return chatList.data;
   } catch (err) {
-    throw new Error('Ошибка при получении сообщений')
+    throw new Error("Ошибка при получении сообщений");
   }
 }
 
 async function sendMessage(message: string, login: string) {
   const bodyFormData = new FormData();
-  bodyFormData.append('message', message);
-  bodyFormData.append('login', login);
+  bodyFormData.append("message", message);
+  bodyFormData.append("login", login);
   try {
     await axios.post("http://127.0.0.1:8000/add_message/", bodyFormData);
   } catch (err) {
-    throw new Error('Ошибка при отправке сообщения')
+    throw new Error("Ошибка при отправке сообщения");
   }
 }
 
