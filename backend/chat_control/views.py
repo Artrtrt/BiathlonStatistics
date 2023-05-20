@@ -1,7 +1,7 @@
 
 from rest_framework import generics
 from rest_framework.generics import CreateAPIView
-
+from rest_framework.permissions import IsAuthenticated
 from .serializers import *
 
 from chat_control.models import Message
@@ -13,11 +13,6 @@ class MessageAPI(generics.ListAPIView):
 
 
 class MessageAPICreate(CreateAPIView):
-    # def post(self, request):
-    #     serializer = MessageSerializer(data=request.data)
-    #     serializer.is_valid(raise_exception=True)
-    #     serializer.save()
-    #
-    #     return Response({'post': serializer.data})
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
+    permission_classes = (IsAuthenticated,)

@@ -22,4 +22,10 @@ class CompetitionSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class CategoryDeleteSerializer(serializers.Serializer):
+    competititon_id = serializers.CharField(max_length=128, required=True)
+    category = serializers.CharField(max_length=128, required=True)
+
+    class Meta:
+        fields = ('competititon_id', 'category')
 
