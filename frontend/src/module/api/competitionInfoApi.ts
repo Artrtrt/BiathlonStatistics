@@ -6,16 +6,18 @@ async function fetchSeasonList() {
     const seasonList = await axios.get("http://127.0.0.1:8000/seasons/");
     return seasonList.data;
   } catch (err) {
-    throw new Error('Ошибка при получении информации о сезонах')
+    throw new Error("Ошибка при получении информации о сезонах");
   }
 }
 
 async function fetchCompetitionList() {
   try {
-    const competitionList = await axios.get("http://127.0.0.1:8000/competitions/");
+    const competitionList = await axios.get(
+      "http://127.0.0.1:8000/competitions/"
+    );
     return competitionList.data;
   } catch (err) {
-    throw new Error('Ошибка при получении данных о соревнованиях')
+    throw new Error("Ошибка при получении данных о соревнованиях");
   }
 }
 
@@ -24,104 +26,180 @@ async function fetchResultList() {
     const resultList = await axios.get("http://127.0.0.1:8000/results/");
     return resultList.data;
   } catch (err) {
-    throw new Error('Ошибка при получении данных о результатах')
+    throw new Error("Ошибка при получении данных о результатах");
   }
 }
 
-async function addSeason(title: string, year: string) {
+async function addSeason(
+  title: string,
+  year: string,
+  token: string
+): Promise<number> {
   const bodyFormData = new FormData();
-  bodyFormData.append('title', title);
-  bodyFormData.append('year', year);
+  bodyFormData.append("title", title);
+  bodyFormData.append("year", year);
   try {
-    await axios.post("http://127.0.0.1:8000/add_season/", bodyFormData);
+    const response = await axios.post(
+      "http://127.0.0.1:8000/add_season/",
+      bodyFormData,
+      {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      }
+    );
+    return response.data.id;
   } catch (err) {
-    throw new Error('Ошибка при добавлении сезона')
+    throw new Error("Ошибка при добавлении сезона");
   }
 }
 
-async function addCompetition(seasonId: number, title: string, date: string) {
+async function addCompetition(
+  seasonId: number,
+  title: string,
+  date: string,
+  token: string
+): Promise<number> {
   const bodyFormData = new FormData();
-  bodyFormData.append('title', title);
-  bodyFormData.append('date', date);
-  bodyFormData.append('season', seasonId.toString());
+  bodyFormData.append("title", title);
+  bodyFormData.append("date", date);
+  bodyFormData.append("season", seasonId.toString());
   try {
-    await axios.post("http://127.0.0.1:8000/add_competition/", bodyFormData);
+    const response = await axios.post(
+      "http://127.0.0.1:8000/add_competition/",
+      bodyFormData,
+      {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      }
+    );
+    return response.data.id;
   } catch (err) {
-    throw new Error('Ошибка при добавлении соревнования')
+    throw new Error("Ошибка при добавлении соревнования");
   }
 }
 
-async function addCategory(resultList: ResultUnit[], competitionId: number) {
-  const payload = {
-    resultList,
-    competitionId
-  }
+async function addCategory(
+  resultList: ResultUnit[],
+  competitionId: number,
+  token: string
+) {
   try {
-    await axios({
-      url: 'http://127.0.0.1:8000/add_category/',
-      method: 'post',
-      data: payload
-    })
+    await axios.post(
+      "http://127.0.0.1:8000/add_category/",
+      {
+        competition: competitionId,
+        array: resultList,
+      },
+      {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      }
+    );
   } catch (err) {
-    throw new Error('Ошибка при добавлении резульатов')
+    throw new Error("Ошибка при добавлении резульатов");
   }
 }
 
-async function deleteSeason(id: number) {
+async function deleteSeason(id: number, token: string) {
   try {
-    await axios.delete(`http://127.0.0.1:8000/delete_season/${id}/`);
+    await axios.delete(`http://127.0.0.1:8000/delete_season/${id}/`, {
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    });
   } catch (err) {
-    throw new Error('Ошибка при удалении сезона')
+    throw new Error("Ошибка при удалении сезона");
   }
 }
 
-async function deleteСompetition(id: number) {
+async function deleteСompetition(id: number, token: string) {
   try {
-    await axios.delete(`http://127.0.0.1:8000/delete_competition/${id}/`);
+    await axios.delete(`http://127.0.0.1:8000/delete_competition/${id}/`, {
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    });
   } catch (err) {
-    throw new Error('Ошибка при удалении соревнования')
+    throw new Error("Ошибка при удалении соревнования");
   }
 }
 
-async function deleteCategory(compInd: number, category: string) {
-  const payload = {
-    compInd,
-    category
-  }
-  try {
-    await axios({
-      url: 'http://127.0.0.1:8000/delete_category/',
-      method: 'delete',
-      data: payload
-    })
-  } catch (err) {
-    throw new Error('Ошибка при удалении результата')
-  }
-}
-
-async function updateSeason(id: number, title: string, year: string) {
+async function deleteCategory(compId: number, category: string, token: string) {
   const bodyFormData = new FormData();
-  bodyFormData.append('title', title);
-  bodyFormData.append('year', year);
+  bodyFormData.append("competition_id", compId.toString());
+  bodyFormData.append("category", category);
   try {
-    await axios.patch(`http://127.0.0.1:8000/update_season/${id}/`, bodyFormData);
+    await axios.post("http://127.0.0.1:8000/delete_category/", bodyFormData, {
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    });
   } catch (err) {
-    throw new Error('Ошибка при обновлении сезона')
+    throw new Error("Ошибка при удалении результата");
   }
 }
 
-async function updateCompetition(id: number, title: string, date: string) {
+async function updateSeason(
+  id: number,
+  title: string,
+  year: string,
+  token: string
+) {
   const bodyFormData = new FormData();
-  bodyFormData.append('title', title);
-  bodyFormData.append('date', date);
-  console.log(id);
-  console.log(title);
-  console.log(date);
+  bodyFormData.append("title", title);
+  bodyFormData.append("year", year);
   try {
-    await axios.patch(`http://127.0.0.1:8000/update_competition/${id}/`, bodyFormData);
+    await axios.patch(
+      `http://127.0.0.1:8000/update_season/${id}/`,
+      bodyFormData,
+      {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      }
+    );
   } catch (err) {
-    throw new Error('Ошибка при обновлении соревнования')
+    throw new Error("Ошибка при обновлении сезона");
   }
 }
 
-export { fetchSeasonList, fetchCompetitionList, fetchResultList, addSeason, addCompetition, addCategory, deleteSeason, deleteСompetition, deleteCategory, updateSeason, updateCompetition };
+async function updateCompetition(
+  id: number,
+  title: string,
+  date: string,
+  token: string
+) {
+  const bodyFormData = new FormData();
+  bodyFormData.append("title", title);
+  bodyFormData.append("date", date);
+  try {
+    await axios.patch(
+      `http://127.0.0.1:8000/update_competition/${id}/`,
+      bodyFormData,
+      {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      }
+    );
+  } catch (err) {
+    throw new Error("Ошибка при обновлении соревнования");
+  }
+}
+
+export {
+  fetchSeasonList,
+  fetchCompetitionList,
+  fetchResultList,
+  addSeason,
+  addCompetition,
+  addCategory,
+  deleteSeason,
+  deleteСompetition,
+  deleteCategory,
+  updateSeason,
+  updateCompetition,
+};

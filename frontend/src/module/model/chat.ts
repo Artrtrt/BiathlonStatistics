@@ -19,7 +19,11 @@ async function MethodImport() {
 
 async function MethodSendMessage(message: string) {
   data.messageList.push({ message, login: model.data.auth.login as string });
-  await chatApi.sendMessage(message, model.data.auth.login as string);
+  await chatApi.sendMessage(
+    message,
+    model.data.auth.login as string,
+    localStorage.getItem("auth_token") as string
+  );
 }
 
 const method = {
