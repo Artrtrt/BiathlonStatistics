@@ -7,6 +7,7 @@ from .serializers import *
 from chat_control.models import Message
 
 
+
 class MessageAPI(generics.ListAPIView):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer

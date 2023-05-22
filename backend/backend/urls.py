@@ -3,6 +3,7 @@ from django.urls import path
 
 from chat_control.views import MessageAPI, MessageAPICreate
 from competitions_control.views import *
+from .yasg import urlpatterns as doc_urls
 
 from users_control.views import RegistrUserView, TokenCreateViewApi
 
@@ -26,3 +27,4 @@ urlpatterns = [
     path('add_category/', CategoryAPICreate.as_view()),
 
 ]
+urlpatterns += doc_urls

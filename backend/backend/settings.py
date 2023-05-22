@@ -23,6 +23,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'djoser',
     'users_control',
+    'rest_framework_swagger',
+    'drf_yasg',
     'chat_control'
 
 ]

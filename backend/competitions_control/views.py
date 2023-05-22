@@ -66,7 +66,7 @@ class CategoryAPIDelete(APIView):
 
 
 class CategoryAPICreate(APIView):
-    permission_classes = (IsAdminUser,)
+    # permission_classes = (IsAdminUser,)
 
     def post(self, request):
         data = request.data
