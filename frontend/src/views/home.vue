@@ -106,7 +106,13 @@
                 v-for="(competition, compIndex) in season.competitionList"
                 :key="compIndex"
               >
-                <div v-if="competition.title.match(searchStr)">
+                <div
+                  v-if="
+                    competition.title
+                      .toUpperCase()
+                      .match(searchStr.toUpperCase())
+                  "
+                >
                   <i-row style="align-items: center">
                     <i-column
                       v-if="showСhangeCompetition[seasonIndex][compIndex]"
@@ -297,7 +303,9 @@ export default Vue.extend({
       let isMatchCompetition = false;
       model.data.app.seasonList.forEach((season, seasonIndex) => {
         season.competitionList.forEach((competition: any) => {
-          if (competition.title.match(this.searchStr)) {
+          if (
+            competition.title.toUpperCase().match(this.searchStr.toUpperCase())
+          ) {
             isMatchCompetition = true;
             return;
           }

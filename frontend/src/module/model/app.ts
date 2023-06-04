@@ -28,55 +28,59 @@ export type ResultUnit = {
 
 const data = {
   seasonList: [] as SeasonUnit[],
-  loading: false,
+  loading: true,
 };
 
 async function MethodImportInfo() {
   data.loading = true;
-  if (data.seasonList.length === 0) {
-    const seasons = await infoApi.fetchSeasonList();
-    const competitions = await infoApi.fetchCompetitionList();
-    const results = await infoApi.fetchResultList();
-    seasons.forEach((season: any, seasonIndex: number) => {
-      const competitionList = [] as CompetitionUnit[];
-      competitions.forEach((competition: any, competitionIndex: number) => {
-        const categoryList = {} as { [category: string]: ResultUnit[] };
-        results.forEach((result: any) => {
-          if (result.competition === competition.id) {
-            if (!categoryList[result.category]) {
-              categoryList[result.category] = [];
+  try {
+    if (data.seasonList.length === 0) {
+      const seasons = await infoApi.fetchSeasonList();
+      const competitions = await infoApi.fetchCompetitionList();
+      const results = await infoApi.fetchResultList();
+      seasons.forEach((season: any, seasonIndex: number) => {
+        const competitionList = [] as CompetitionUnit[];
+        competitions.forEach((competition: any, competitionIndex: number) => {
+          const categoryList = {} as { [category: string]: ResultUnit[] };
+          results.forEach((result: any) => {
+            if (result.competition === competition.id) {
+              if (!categoryList[result.category]) {
+                categoryList[result.category] = [];
+              }
+              categoryList[result.category].push({
+                sportsman: result.sportsman,
+                country: result.country,
+                category: result.category,
+                goldMedals: result.gold_medals,
+                silverMedals: result.silver_medals,
+                bronzeMedals: result.bronze_medals,
+                points: result.points,
+              });
             }
-            categoryList[result.category].push({
-              sportsman: result.sportsman,
-              country: result.country,
-              category: result.category,
-              goldMedals: result.gold_medals,
-              silverMedals: result.silver_medals,
-              bronzeMedals: result.bronze_medals,
-              points: result.points,
+          });
+          if (competition.season === season.id) {
+            competitionList.push({
+              id: competition.id,
+              title: competition.title,
+              date: competition.date,
+              categoryList: categoryList,
             });
           }
         });
-        if (competition.season === season.id) {
-          competitionList.push({
-            id: competition.id,
-            title: competition.title,
-            date: competition.date,
-            categoryList: categoryList,
-          });
-        }
+        competitionList.reverse();
+        data.seasonList.push({
+          id: season.id,
+          title: season.title,
+          year: season.year,
+          competitionList: competitionList,
+        });
       });
-      competitionList.reverse();
-      data.seasonList.push({
-        id: season.id,
-        title: season.title,
-        year: season.year,
-        competitionList: competitionList,
-      });
-    });
+    }
+    data.seasonList.reverse();
+    data.loading = false;
+  } catch (err) {
+    console.log(err);
   }
-  data.seasonList.reverse();
-  data.loading = false;
 }
 
 function findCompetition(
@@ -127,7 +131,19 @@ async function MethodAddCategory(
   if (competition !== undefined) {
     competition.categoryList[category] = resultList;
   }
-  await infoApi.addCategory(resultList, competitionId, token);
+  const results = [] as any;
+  resultList.forEach((el) => {
+    results.push({
+      sportsman: el.sportsman,
+      country: el.country,
+      category: el.category,
+      gold_medals: el.goldMedals,
+      silver_medals: el.silverMedals,
+      bronze_medals: el.bronzeMedals,
+      points: el.points,
+    });
+  });
+  await infoApi.addCategory(results, competitionId, token);
 }
 
 async function MethodDeleteSeason(ind: number) {

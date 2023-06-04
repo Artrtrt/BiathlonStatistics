@@ -82,18 +82,29 @@ export default Vue.extend({
   methods: {
     async logout() {
       await model.method.auth.logout();
+      this.$router.push("/");
       location.reload(); // eslint-disable-line
       this.$forceUpdate();
     },
     toHome() {
-      console.log("aa");
       if (this.$route.path !== "/") {
         this.$router.push("/");
       }
     },
   },
+  watch: {
+    "$route.path"(newValue) {
+      this.$metrika.hit(newValue);
+    },
+  },
   async beforeMount() {
-    await model.method.app.import();
+    const procImport = setInterval(async () => {
+      await model.method.app.import();
+      if (!model.data.app.loading) {
+        clearInterval(procImport);
+      }
+      this.$forceUpdate();
+    }, 5000);
     model.method.auth.getInfo();
     this.$forceUpdate();
   },
