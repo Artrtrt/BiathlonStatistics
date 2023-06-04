@@ -12,7 +12,6 @@ urlpatterns = [
     path("results/", ResultAPIList.as_view()),
     path("competitions/", CompetitionAPIList.as_view()),
     path("add_season/", SeasonAPICreate.as_view()),
-    path("add_result/", ResultAPICreate.as_view()),
     path("add_competition/", CompetitionAPICreate.as_view()),
     path('update_season/<int:pk>/', SeasonAPIUpdate.as_view()),
     path('update_competition/<int:pk>/', CompetitionAPIUpdate.as_view()),

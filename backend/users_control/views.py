@@ -4,10 +4,16 @@ from rest_framework.response import Response
 from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import AllowAny
 from .models import User
+from djoser.views import TokenCreateView
+from rest_framework import status
+from swagger_docs import *
+from rest_framework.response import Response
+from rest_framework.generics import CreateAPIView
+from rest_framework.permissions import AllowAny
+from .models import User
 from .serializers import UserRegistrSerializer
-from django.contrib.auth import authenticate
 
-from djoser import signals, utils
+from djoser import utils
 from djoser.conf import settings
 
 
@@ -18,6 +24,7 @@ class RegistrUserView(CreateAPIView):
 
     permission_classes = [AllowAny]
 
+    @user_registration
     def post(self, request, *args, **kwargs):
 
         serializer = UserRegistrSerializer(data=request.data)
@@ -40,7 +47,12 @@ class TokenCreateViewApi(TokenCreateView):
         token = utils.login_user(self.request, serializer.user)
         token_serializer_class = settings.SERIALIZERS.token
         return Response(
-            data=(token_serializer_class(token).data, ({"first_name":serializer.user.first_name}),({"last_name": serializer.user.last_name}), ({"is_superuser":serializer.user.is_superuser})),
+            data=(token_serializer_class(token).data, ({"first_name": serializer.user.first_name}),
+                  ({"last_name": serializer.user.last_name}), ({"is_superuser": serializer.user.is_superuser})),
             status=status.HTTP_200_OK,
 
         )
+
+    @user_login
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)

@@ -1,22 +1,23 @@
+from requests import Response
 from rest_framework import generics
-from rest_framework.generics import CreateAPIView
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
-
+from rest_framework.permissions import IsAdminUser
 from rest_framework.views import APIView
-
-from .serializers import *
-from .models import Season
+from rest_framework.response import Response
+from competitions_control.serializers import *
+from swagger_docs import *
 
 
 class SeasonAPIList(generics.ListAPIView):
     queryset = Season.objects.all()
     serializer_class = SeasonSerializer
 
+    @season_get_all
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
 
 class SeasonAPICreate(generics.CreateAPIView):
-    permission_classes = (IsAdminUser,)
-
+    @season_create
     def post(self, request, **kwargs):
         serializer = SeasonSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -29,6 +30,12 @@ class SeasonAPIUpdate(generics.UpdateAPIView):
     queryset = Season.objects.all()
     serializer_class = SeasonSerializer
     permission_classes = (IsAdminUser,)
+    @season_put
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+    @season_patch
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
 
 
 class SeasonAPIDelete(generics.DestroyAPIView):
@@ -36,21 +43,35 @@ class SeasonAPIDelete(generics.DestroyAPIView):
     serializer_class = SeasonSerializer
     permission_classes = (IsAdminUser,)
 
+    @season_delete
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
 
 class ResultAPIList(generics.ListAPIView):
     queryset = Result.objects.all()
     serializer_class = ResultSerializer
+
+    @result_get_all
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
 
 class ResultAPIUpdate(generics.UpdateAPIView):
     queryset = Result.objects.all()
     serializer_class = ResultSerializer
     permission_classes = (IsAdminUser,)
+    @result_put
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+    @result_patch
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
 
 
 class CategoryAPIDelete(APIView):
     permission_classes = (IsAdminUser,)
-
+    @category_delete
     def post(self, request):
         competition_id = request.data.get('competition_id')
         category = request.data.get('category')
@@ -66,8 +87,9 @@ class CategoryAPIDelete(APIView):
 
 
 class CategoryAPICreate(APIView):
-    # permission_classes = (IsAdminUser,)
+    permission_classes = (IsAdminUser,)
 
+    @category_create
     def post(self, request):
         data = request.data
 
@@ -92,27 +114,30 @@ class ResultAPIDelete(generics.DestroyAPIView):
     serializer_class = ResultSerializer
     permission_classes = (IsAdminUser,)
 
-
-class ResultAPICreate(generics.CreateAPIView):
-    permission_classes = (IsAdminUser,)
-
-    def post(self, request, **kwargs):
-        serializer = ResultSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response({'id': serializer.data.get('id')})
+    @result_delete
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 
 class CompetitionAPIList(generics.ListAPIView):
     queryset = Competition.objects.all()
     serializer_class = CompetitionSerializer
 
+    @competition_get_all
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
 
 class CompetitionAPIUpdate(generics.UpdateAPIView):
     queryset = Competition.objects.all()
     serializer_class = CompetitionSerializer
     permission_classes = (IsAdminUser,)
+    @competition_put
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+    @competition_patch
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
 
 
 class CompetitionAPIDelete(generics.DestroyAPIView):
@@ -120,10 +145,15 @@ class CompetitionAPIDelete(generics.DestroyAPIView):
     serializer_class = CompetitionSerializer
     permission_classes = (IsAdminUser,)
 
+    @competition_delete
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
 
 class CompetitionAPICreate(generics.CreateAPIView):
     permission_classes = (IsAdminUser,)
 
+    @competition_create
     def post(self, request, **kwargs):
         serializer = CompetitionSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
