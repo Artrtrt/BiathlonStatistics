@@ -4,9 +4,10 @@
 Группа ТП-2-5
 
 Студенты:
-* [Богдан Шульга](https://github.com/AbodeOfTheSmokyCat)
-* [Анна Новикова](https://github.com/annanovikova614)
-* [Тихнов Артём](https://github.com/Artrtrt)
+|  Имя | Роль | Задачи |
+| [Богдан Шульга](https://github.com/AbodeOfTheSmokyCat) | Backend dev, DataBase dev | ER - диаграммы, разработка баз данных, разработка backend, swagger |
+| [Анна Новикова](https://github.com/annanovikova614) | Application manager, Creative director | Анализ предметной области, разработка макетов, курсовой проект, тестирование, яндекс метрика |
+| [Тихнов Артём](https://github.com/Artrtrt) | TeamLead, Frontend dev | Составлене ТЗ, разработка frontend, деплоинг |
 
 # Сервисы
 * [Trello](https://clck.ru/33i9t7)
@@ -29,3 +30,9 @@
 * [Сайт](http://ci99128.tw1.ru/)
 * [Метрики](https://metrika.yandex.ru/dashboard?period=today&id=93817424)
 * [Swagger](http://ci99128-django-pqnme.tw1.ru/swagger/)
+
+# Данные для входа
+* Обычный пользователь
+Логин: test1; пароль: 123456
+* Админ
+Логин: admin; пароль: admin1
