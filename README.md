@@ -15,9 +15,14 @@
 
 # Документация
 * [Техническое задание](https://github.com/Artrtrt/BiathlonStatistics/blob/main/docs/ТЗ.pdf)
-* [Курсовой проект](https://github.com/Artrtrt/BiathlonStatistics/blob/main/docs/Курсовая%20работа.pdf)
+* [Курсовой проект](https://github.com/Artrtrt/BiathlonStatistics/blob/develop/docs/Курсовой%20проект.pdf)
 * [Диаграммы](https://github.com/Artrtrt/BiathlonStatistics/blob/main/docs/UML)
-* [Презентация](https://github.com/Artrtrt/BiathlonStatistics/blob/main/docs/ИТОГОВАЯ%20ПРЕЗЕНТАЦИЯ.pptx)
+* [Презентация](https://github.com/Artrtrt/BiathlonStatistics/blob/develop/docs/Презентация.pdf)
 
 # Видео
-* [Видео презентация проекта](https://www.youtube.com/watch?v=8E7M3uqaVwI)
+* [Видео презентация проекта демо](https://www.youtube.com/watch?v=8E7M3uqaVwI)
+
+# Приложение
+* [Сайт](ci99128.tw1.ru)
+* [Метрики](https://metrika.yandex.ru/dashboard?period=today&id=93817424)
+* [Swagger](http://ci99128-django-pqnme.tw1.ru/swagger/)
