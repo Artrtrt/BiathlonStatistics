@@ -23,6 +23,6 @@
 * [Видео презентация проекта демо](https://www.youtube.com/watch?v=8E7M3uqaVwI)
 
 # Приложение
-* [Сайт](ci99128.tw1.ru)
+* [Сайт](http://ci99128.tw1.ru/)
 * [Метрики](https://metrika.yandex.ru/dashboard?period=today&id=93817424)
 * [Swagger](http://ci99128-django-pqnme.tw1.ru/swagger/)
