@@ -5,6 +5,7 @@
 
 Студенты:
 |  Имя | Роль | Задачи |
+| --- | --- | --- |
 | [Богдан Шульга](https://github.com/AbodeOfTheSmokyCat) | Backend dev, DataBase dev | ER - диаграммы, разработка баз данных, разработка backend, swagger |
 | [Анна Новикова](https://github.com/annanovikova614) | Application manager, Creative director | Анализ предметной области, разработка макетов, курсовой проект, тестирование, яндекс метрика |
 | [Тихнов Артём](https://github.com/Artrtrt) | TeamLead, Frontend dev | Составлене ТЗ, разработка frontend, деплоинг |
