@@ -3,7 +3,20 @@
     <i-layout v-if="showChat" class="chat">
       <i-layout-header class="chat-header"> Общий чат </i-layout-header>
       <hr class="_margin-0" />
-      <i-layout-content class="chat-content scroll">
+      <i-layout-content v-if="loading">
+        <i-loader
+          size="auto"
+          variant="dark"
+          style="
+            height: 40px;
+            width: 40px;
+            position: absolute;
+            top: 50%;
+            left: 48%;
+          "
+        />
+      </i-layout-content>
+      <i-layout-content v-else class="chat-content scroll">
         <div ref="chat">
           <div
             v-for="(messageUnit, index) in model.data.chat.messageList"
@@ -79,11 +92,15 @@ export default Vue.extend({
       model,
       showChat: false,
       message: "",
+      loading: false,
     };
   },
   async mounted() {
     if (model.data.chat.messageList.length === 0) {
+      this.loading = true;
       await model.method.chat.import();
+      this.loading = false;
+      this.$forceUpdate();
     }
   },
   methods: {

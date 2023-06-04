@@ -100,6 +100,9 @@ export default Vue.extend({
         if (this.formAuth.valid && this.isDirty) {
           await model.method.auth.login(this.login, this.password);
           this.$router.push("/");
+          if (model.data.auth.isAdmin) {
+            location.reload();
+          }
         }
       } catch (err: any) {
         this.hasError = true;
