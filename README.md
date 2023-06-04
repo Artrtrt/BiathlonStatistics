@@ -20,7 +20,10 @@
 * [Презентация](https://github.com/Artrtrt/BiathlonStatistics/blob/develop/docs/Презентация.pdf)
 
 # Видео
-* [Видео презентация проекта демо](https://www.youtube.com/watch?v=8E7M3uqaVwI)
+* [Видео презентация проекта](https://www.youtube.com/watch?v=zVyVnHt6Hkk)
+* [Видео демонстрация серверной части веб-приложения](https://www.youtube.com/watch?v=NiEsFKyEIm0)
+* [Видео демонстрация клиентской части веб-приложения](https://www.youtube.com/watch?v=VLCYCqn87Zs)
+* [Видео демонстрация запуска веб-приложения](https://www.youtube.com/watch?v=MuRNLYpfQaI)
 
 # Приложение
 * [Сайт](http://ci99128.tw1.ru/)
