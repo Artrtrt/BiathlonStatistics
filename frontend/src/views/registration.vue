@@ -83,7 +83,7 @@
         </i-form>
         <i-row class="_margin-bottom-1">
           <i-column style="text-align: center">
-            Если у вас есть аккаунта можете
+            Если у вас есть аккаунт можете
             <a @click="toAuth" class="link">войти</a>
           </i-column>
         </i-row>

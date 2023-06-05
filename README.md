@@ -12,7 +12,11 @@
 
 Функциональные требования:
 * Просмотр информации выбранного соревнования
+<<<<<<< HEAD
 * Поиск интресующего соревнования
+=======
+* Поиск интересующего соревнования
+>>>>>>> develop
 * Калькулятор медалей
 * Регистрация и авторизация пользователей
 * Разделение пользователей по ролям
@@ -24,6 +28,7 @@
 * [Figma](https://www.figma.com/file/h0HEN7Bf07phGvdKblxWio/Статистика-по-биатлону?node-id=31-986&t=ZxNAyBHevlHBJtJg-0)
 
 # Документация
+* [Сопроводительное письмо](https://github.com/Artrtrt/BiathlonStatistics/blob/main/docs/Сопроводительное%20письмо.pdf)
 * [Техническое задание](https://github.com/Artrtrt/BiathlonStatistics/blob/main/docs/ТЗ.pdf)
 * [Курсовой проект](https://github.com/Artrtrt/BiathlonStatistics/blob/develop/docs/Курсовой%20проект.pdf)
 * [Диаграммы](https://github.com/Artrtrt/BiathlonStatistics/blob/main/docs/UML)
@@ -43,5 +48,9 @@
 # Данные для входа
 |  Роль | Логин | Пароль |
 | --- | --- | --- |
+<<<<<<< HEAD
 | Обычный пользователь | test1 | 123456 |
+=======
+| Пользователь | test1 | 123456 |
+>>>>>>> develop
 | Админ | admin | admin1 |
